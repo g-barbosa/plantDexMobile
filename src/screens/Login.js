@@ -31,7 +31,7 @@ const Login = ({navigation}) => {
                 </TouchableOpacity>
                 
                 <TouchableOpacity style={styles.main__button} onPress={() => navigation.navigate('Home')}>
-                    <Text style={{color: "white", fontWeight: "bold", fontSize: 18}}>Entrar</Text>
+                    <Text style={styles.main__button__text}>Entrar</Text>
                 </TouchableOpacity>
             </View>
             <View style={styles.registerWrapper}>
@@ -92,6 +92,12 @@ const styles = StyleSheet.create({
         height: 55,
         marginTop: 60,
         width: "100%"
+    },
+
+    main__button__text: {
+        color: "white", 
+        fontWeight: "bold", 
+        fontSize: 18
     },
 
     registerWrapper: {

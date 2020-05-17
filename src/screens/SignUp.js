@@ -28,7 +28,7 @@ const SignUp = ({navigation}) => {
                 </TouchableOpacity>
                 
                 <TouchableOpacity style={styles.main__button} onPress={() => navigation.navigate('Login')}>
-                    <Text style={{color: "white", fontWeight: "bold", fontSize: 18}}>Cadastrar</Text>
+                    <Text style={styles.main__button__text}>Cadastrar</Text>
                 </TouchableOpacity>
             </View>
             <View style={styles.registerWrapper}>
@@ -82,6 +82,12 @@ const styles = StyleSheet.create({
         height: 55,
         marginTop: 60,
         width: "100%"
+    },
+
+    main__button__text: {
+        color: "white", 
+        fontWeight: "bold", 
+        fontSize: 18
     },
 
     registerWrapper: {

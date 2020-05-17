@@ -55,7 +55,16 @@ const App = () => {
               <Image style={{marginRight: 15}} source={editIcon}/>
             </TouchableOpacity>)
           }}/>
-        <Stack.Screen name="AddPlant" component={AddPlant} />
+        <Stack.Screen name="AddPlant"
+        component={AddPlant} 
+        options={
+          {
+            headerTitleAlign: 'center', 
+            headerStyle: {height: 50, backgroundColor: "#CCFFC8", elevation:0},
+            headerShown: true, 
+            title: null, 
+            headerTitleStyle: Style.titleStyle
+          }}/>
         <Stack.Screen name="Home" component={HomeScreen} />
       </Stack.Navigator>
     </NavigationContainer>

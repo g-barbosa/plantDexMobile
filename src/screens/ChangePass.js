@@ -24,7 +24,7 @@ const ChangePass = ({navigation}) => {
                 </TouchableOpacity>
                 
                 <TouchableOpacity style={styles.main__button} onPress={() => navigation.navigate('Login')}>
-                    <Text style={{color: "white", fontWeight: "bold", fontSize: 18}}>Salvar</Text>
+                    <Text style={styles.main__button__text}>Salvar</Text>
                 </TouchableOpacity>
             </View>
         </View>
@@ -74,6 +74,12 @@ const styles = StyleSheet.create({
         marginTop: 60,
         width: "100%"
     },
+
+    main__button__text: {
+        color: "white", 
+        fontWeight: "bold", 
+        fontSize: 18
+    }
 })
 
 export default ChangePass
