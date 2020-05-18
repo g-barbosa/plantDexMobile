@@ -12,5 +12,5 @@ This project is a kind of "Pokedex" app for plants. The user can register his pl
 - [:heavy_check_mark:] Home Screen
 - [:heavy_check_mark:] Detail Screen
 - [:heavy_check_mark:] Add Plant Screen
-- [:heavy_check_mark:] Edit Plant Screen
+- [:x:] Edit Plant Screen
 - [:x:] Dark Mode
