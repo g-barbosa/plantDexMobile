@@ -1,25 +1,46 @@
 import React, {useState} from  'react'
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, Image } from 'react-native'
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, Image, AsyncStorage } from 'react-native'
+
+import FetchService from '../services/FetchService'
 
 import logo from "../../assets/logo-header.png"
 import eye from '../../assets/eye.png'
 
 const Login = ({navigation}) => {
     const [showPass, setShowPass] = useState(true)
+    const [login, setLogin] = useState('')
+    const [password, setPassword] = useState('')
+    const [errorMessage, setErrorMessage] = useState('')
+
+    const SignIn = () => {
+        setErrorMessage('')
+        FetchService.login({login: login, password: password})
+        .then(response => {
+            if (response.data.login != null){
+                AsyncStorage.setItem('token', response.data.login.token)
+                navigation.navigate('Home')
+            }
+            setErrorMessage(response.errors[0].message)
+        })
+    }
 
     return (
         <View style={styles.container}>
             <View style={styles.header}>
                 <Image source={logo}/>
+                <Text style={styles.errorMessage}>{errorMessage}</Text>
             </View>
             <View style={styles.main}>
                 <TextInput style={styles.main__input}
                     placeholderTextColor="#656363"
+                    autoCapitalize='none'
+                    onChangeText={txt => setLogin(txt)}
                     placeholder='Digite seu login'/>
 
                 <TextInput style={styles.main__input}
                     placeholderTextColor="#656363"
                     secureTextEntry={showPass}
+                    onChangeText={txt => setPassword(txt)}
                     placeholder='Digite sua senha'/>
 
                 <TouchableOpacity onPress={() => navigation.navigate('ChangePass')}>
@@ -30,7 +51,7 @@ const Login = ({navigation}) => {
                     <Image source={eye}/>
                 </TouchableOpacity>
                 
-                <TouchableOpacity style={styles.main__button} onPress={() => navigation.navigate('Home')}>
+                <TouchableOpacity style={styles.main__button} onPress={SignIn}>
                     <Text style={styles.main__button__text}>Entrar</Text>
                 </TouchableOpacity>
             </View>
@@ -122,6 +143,11 @@ const styles = StyleSheet.create({
         fontSize: 15,
         fontWeight: "bold",
         color: "#099820"
+    },
+
+    errorMessage: {
+        color: "red",
+        textAlign: "center"
     }
 })
 

@@ -3,7 +3,7 @@ import { NavigationContainer, DarkTheme, DefaultTheme } from '@react-navigation/
 import { createStackNavigator } from '@react-navigation/stack';
 import { AppearanceProvider } from 'react-native-appearance'
 
-import { StyleSheet, TouchableOpacity, Image } from 'react-native'
+import { StyleSheet, TouchableOpacity, Image, YellowBox } from 'react-native'
 
 import Login from './src/screens/Login'
 import HomeScreen  from './src/screens/HomeScreen'
@@ -13,6 +13,8 @@ import PlantInfo from './src/screens/PlantInfo'
 import AddPlant from './src/screens/AddPlant'
 
 import editIcon from './assets/edit.png'
+
+YellowBox.ignoreWarnings = true;
 
 const Stack = createStackNavigator()
 
