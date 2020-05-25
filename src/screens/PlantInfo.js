@@ -1,10 +1,28 @@
-import React from 'react'
-import { View, Text, StyleSheet, Dimensions, Image } from  'react-native'
+import React, {useLayoutEffect} from 'react'
+import { View, Text, StyleSheet, Dimensions, Image, TouchableOpacity } from  'react-native'
 
 const width = Dimensions.get('screen').width
 
+import editIcon from '../../assets/edit.png'
+
 const PlantInfo = ({navigation, route}) => {
     const {params} = route
+
+    useLayoutEffect(() => {
+        navigation.setOptions({
+            headerRight: () => (
+                <TouchableOpacity onPress={() => navigation.navigate('Edit', {
+                    id: params.id,
+                    name: params.name,
+                    scientificName: params.scientificName,
+                    types: params.types,
+                    informations: params.informations,
+                    image: params.image
+                })}>
+                  <Image style={{marginRight: 15}} source={editIcon}/>
+                </TouchableOpacity>)
+        })
+    })
 
     return (
         <View style={styles.container}>

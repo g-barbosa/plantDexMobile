@@ -1,9 +1,9 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { NavigationContainer, DarkTheme, DefaultTheme } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { AppearanceProvider } from 'react-native-appearance'
+import AsyncStorage from '@react-native-community/async-storage';
 
-import { StyleSheet, TouchableOpacity, Image, YellowBox } from 'react-native'
+import { StyleSheet, TouchableOpacity, Image } from 'react-native'
 
 import Login from './src/screens/Login'
 import HomeScreen  from './src/screens/HomeScreen'
@@ -13,15 +13,28 @@ import PlantInfo from './src/screens/PlantInfo'
 import AddPlant from './src/screens/AddPlant'
 
 import editIcon from './assets/edit.png'
-
-YellowBox.ignoreWarnings = true;
+import EditPlant from './src/screens/EditPlant';
 
 const Stack = createStackNavigator()
 
 const App = () => {
+  const [routeName, setRouteName] = useState('Login')
+
+  const getToken = async () => {
+    try {
+      const value = await AsyncStorage.getItem('@token')
+      return value !== null ? 'Home' : 'Login'
+    } catch(e) {
+        console.warn(e)
+    }
+  }
+
+  getToken()
+  .then(response => setRouteName(response))
+
   return (
     <NavigationContainer >
-      <Stack.Navigator initialRouteName="Login" screenOptions={{ gestureEnabled: false, headerShown: false }}>
+      <Stack.Navigator initialRouteName={routeName} screenOptions={{ gestureEnabled: false, headerShown: false }}>
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="ChangePass" 
         component={ChangePass}  
@@ -52,10 +65,6 @@ const App = () => {
             headerShown: true, 
             title: null, 
             headerTitleStyle: Style.titleStyle,
-            headerRight: () => (
-            <TouchableOpacity>
-              <Image style={{marginRight: 15}} source={editIcon}/>
-            </TouchableOpacity>)
           }}/>
         <Stack.Screen name="AddPlant"
         component={AddPlant} 
@@ -67,6 +76,17 @@ const App = () => {
             title: null, 
             headerTitleStyle: Style.titleStyle
           }}/>
+          <Stack.Screen name="Edit" 
+          component={EditPlant}
+          options={
+            {
+              headerTitleAlign: 'center', 
+              headerStyle: {height: 50, backgroundColor: "#CCFFC8", elevation:0},
+              headerShown: true, 
+              title: null, 
+              headerTitleStyle: Style.titleStyle
+            }}
+          />
         <Stack.Screen name="Home" component={HomeScreen} />
       </Stack.Navigator>
     </NavigationContainer>

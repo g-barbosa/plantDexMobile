@@ -1,33 +1,60 @@
 import React, {useState} from  'react'
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, Image } from 'react-native'
 
+import FetchService from '../services/FetchService'
+
 import eye from '../../assets/eye.png'
 
 const SignUp = ({navigation}) => {
     const [showPass, setShowPass] = useState(true)
+    const [login, setLogin] = useState('')
+    const [password, setPassword] = useState('')
+    const [passwordConfirmation, setConfirmPassword] = useState('')
+    const [errorMessage, setErrorMessage] = useState('')
+
+    const register = () => {
+        setErrorMessage('')
+        if (password !== passwordConfirmation) {
+            setErrorMessage('As senhas não são iguais')
+        } else {
+            FetchService.register({login: login, password: password})
+            .then(response => {
+                if (response.data != null ) {
+                    navigation.navigate('Login')
+                } else {
+                    setErrorMessage(response.errors[0].message)
+                }
+            })
+        }
+    }
 
     return (
         <View style={styles.container}>
             <View style={styles.main}>
                 <TextInput style={styles.main__input}
                     placeholderTextColor="#656363"
+                    onChangeText={txt => setLogin(txt)}
                     placeholder='Digite seu login'/>
 
                 <TextInput style={styles.main__input}
                     placeholderTextColor="#656363"
+                    onChangeText={txt => setPassword(txt)}
                     secureTextEntry={showPass}
                     placeholder='Digite sua nova senha'/>
 
                 <TextInput style={styles.main__input}
                     placeholderTextColor="#656363"
+                    onChangeText={txt => setConfirmPassword(txt)}
                     secureTextEntry={showPass}
                     placeholder='Digite novamente sua senha'/>
+
+                <Text style={styles.errorMessage}>{errorMessage}</Text>
 
                 <TouchableOpacity style={styles.main__eye} onPress={() => setShowPass(!showPass)}>
                     <Image source={eye}/>
                 </TouchableOpacity>
                 
-                <TouchableOpacity style={styles.main__button} onPress={() => navigation.navigate('Login')}>
+                <TouchableOpacity style={styles.main__button} onPress={register}>
                     <Text style={styles.main__button__text}>Cadastrar</Text>
                 </TouchableOpacity>
             </View>
@@ -112,6 +139,10 @@ const styles = StyleSheet.create({
         fontSize: 15,
         fontWeight: "bold",
         color: "#099820"
+    },
+    errorMessage: {
+        color: "red",
+        textAlign: "center"
     }
 })
 

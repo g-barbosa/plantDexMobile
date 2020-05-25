@@ -14,3 +14,15 @@ This project is a kind of "Pokedex" app for plants. The user can register his pl
 - [:heavy_check_mark:] Add Plant Screen
 - [:x:] Edit Plant Screen
 - [:x:] Dark Mode
+
+### Setting The Environment
+To work with React Native applications, it is important to set up the environment. You can follow this guide to do this:
+<https://react-native.rocketseat.dev/>
+
+## To Contribute
+* Fork this repository
+* Clone this repository
+* Create a new branch from dev (feature/yourBranchName or fix/yourBranchName)
+* Make your changes and commit
+* Push your changes to GitHub
+* Open a pull request

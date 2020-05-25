@@ -1,51 +1,50 @@
-import React, {useState} from 'react'
-import { View, StyleSheet, ImageBackground, Text, Image, TextInput, Dimensions, FlatList, TouchableOpacity } from  'react-native'
+import React, {useState, useEffect} from 'react'
+import { 
+    View, 
+    StyleSheet, 
+    ImageBackground, 
+    Text, 
+    Image, 
+    TextInput, 
+    Dimensions, 
+    FlatList, 
+    TouchableOpacity, 
+    RefreshControl } from  'react-native'
 
 import backImage from '../../assets/logo-background.png'
 import searchIcon from '../../assets/search-icon.png'
 import addIcon from '../../assets/add-icon.png'
+import AsyncStorage from '@react-native-community/async-storage'
+
+import FetchService from '../services/FetchService'
 
 const width = Dimensions.get('screen').width
 
 const HomeScreen = ({navigation}) => {
-    const [plants, SetPlants] = useState([
-        {
-            id: 1,
-            user_id: 1,
-            name: "Chifre-de-viado",
-            scientificName: "Platycerium bifurcatum",
-            informations: "Platycerium bifurcatum, a samambaia elkhorn ou samambaia comum, é uma espécie de samambaia nativa de Java, Nova Guiné e sudeste da Austrália.",
-            image: "http://res.cloudinary.com/dkafjz7rw/image/upload/qgfo9nrbtyiqj8wigeqf.jpg",
-            types: ['Cacto', 'Flor']
-        },
-        {
-            id: 2,
-            user_id: 1,
-            name: "Cacto",
-            scientificName: "Cactaceae",
-            informations: "Cactaceae é uma família botânica de arbustos, árvores, ervas, lianas e subarbustos representada pelos cactos ou catos.",
-            image: "https://res.cloudinary.com/dkafjz7rw/image/upload/v1586650369/vewzmxqs2wzsfg1te3od.jpg",
-            types: ['Cacto', 'Flor']
-        },
-        {
-            id: 3,
-            user_id: 1,
-            name: "Chifre-de-viado",
-            scientificName: "Platycerium bifurcatum",
-            informations: "Platycerium bifurcatum, a samambaia elkhorn ou samambaia comum, é uma espécie de samambaia nativa de Java, Nova Guiné e sudeste da Austrália.",
-            image: "http://res.cloudinary.com/dkafjz7rw/image/upload/qgfo9nrbtyiqj8wigeqf.jpg",
-            types: ['Cacto', 'Flor']
-        },
-        {
-            id: 4,
-            user_id: 1,
-            name: "Cacto",
-            scientificName: "Cactaceae",
-            informations: "Cactaceae é uma família botânica de arbustos, árvores, ervas, lianas e subarbustos representada pelos cactos ou catos.",
-            image: "https://res.cloudinary.com/dkafjz7rw/image/upload/v1586650369/vewzmxqs2wzsfg1te3od.jpg",
-            types: ['Cacto', 'Flor']
-        }
-    ])
+    const [plants, SetPlants] = useState([])
+    const [refreshing, setRefreshing] = useState(false)
+
+    const getData = async() => {
+        await FetchService.getPlants()
+        .then(response => {
+            SetPlants(response.data.plants)
+        })
+        setRefreshing(false)     
+    }
+
+    useEffect(() => {
+        getData()
+    }, [])
+
+    const push = () =>{
+        setRefreshing(true)
+        getData()
+    }
+
+    const logout = async () => {
+        AsyncStorage.removeItem('@token')
+        navigation.navigate('Login')
+    }
 
     return (
         <View style={styles.container}>
@@ -88,8 +87,9 @@ const HomeScreen = ({navigation}) => {
                             </TouchableOpacity>
                         )
                     }}
+                    refreshControl={ <RefreshControl refreshing={refreshing} onRefresh={push}/> }
                 />
-                <TouchableOpacity style={styles.logout} onPress={() => navigation.navigate("Login")}>
+                <TouchableOpacity style={styles.logout} onPress={logout}>
                     <Text style={styles.logout__text}>Sair</Text>
                 </TouchableOpacity>
             </ImageBackground>

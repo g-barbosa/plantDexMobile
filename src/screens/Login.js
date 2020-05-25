@@ -1,10 +1,13 @@
 import React, {useState} from  'react'
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, Image, AsyncStorage } from 'react-native'
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, Image, YellowBox } from 'react-native'
+import AsyncStorage from '@react-native-community/async-storage';
 
 import FetchService from '../services/FetchService'
 
 import logo from "../../assets/logo-header.png"
 import eye from '../../assets/eye.png'
+
+YellowBox.ignoreWarnings(['Require cycle:'])
 
 const Login = ({navigation}) => {
     const [showPass, setShowPass] = useState(true)
@@ -17,10 +20,11 @@ const Login = ({navigation}) => {
         FetchService.login({login: login, password: password})
         .then(response => {
             if (response.data.login != null){
-                AsyncStorage.setItem('token', response.data.login.token)
+                AsyncStorage.setItem('@token', response.data.login.token)
                 navigation.navigate('Home')
+            } else{
+                setErrorMessage(response.errors[0].message)
             }
-            setErrorMessage(response.errors[0].message)
         })
     }
 

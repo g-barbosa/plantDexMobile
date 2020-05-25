@@ -19,16 +19,18 @@ const options = {
       },
 }
 
-const AddPlant = ({navigation}) => {
-    const [showSelect, setShowSelect] = useState(false)
-    const [name, setName] = useState('')
-    const [scientificName, setScientificName] = useState('')
-    const [types, setTypes] = useState([false, false, false, false])
-    const [informations, setInformations] = useState('')
-    const [image, setImage] = useState('')
+const EditPlant = ({navigation, route}) => {
+    const {params} = route
 
-    const Add = async () => {
-        await FetchService.AddPlant({
+    const [showSelect, setShowSelect] = useState(false)
+    const [name, setName] = useState(params.name)
+    const [scientificName, setScientificName] = useState(params.scientificName)
+    const [types, setTypes] = useState([false, false, false, false])
+    const [informations, setInformations] = useState(params.informations)
+    const [image, setImage] = useState({uri: params.image})
+
+    const save = async () => {
+        await FetchService.updatePlant(params.id, {
             name: name,
             scientificName: scientificName,
             types: types,
@@ -46,11 +48,13 @@ const AddPlant = ({navigation}) => {
             <View style={styles.card}>
                 <TextInput style={styles.card__input}
                     placeholderTextColor="#9A9A9A"
+                    value={name}
                     onChangeText={txt => setName(txt)}
                     placeholder='Nome da Planta'/>
 
                 <TextInput style={styles.card__input}
                     placeholderTextColor="#9A9A9A"
+                    value={scientificName}
                     onChangeText={txt => setScientificName(txt)}
                     placeholder='Nome Cientifico'/>
 
@@ -65,6 +69,7 @@ const AddPlant = ({navigation}) => {
                 <TextInput multiline={true} style={[styles.card__input, {height: 100}]}
                     placeholderTextColor="#9A9A9A"
                     placeholder='Informações adicionais'
+                    value={informations}
                     onChangeText={txt => setInformations(txt)}
                     maxLength={130}/>
 
@@ -75,8 +80,8 @@ const AddPlant = ({navigation}) => {
                     </View>
                 </View>
 
-                <TouchableOpacity style={styles.card__button} onPress={Add}>
-                    <Text style={styles.card__button__text}>Cadastrar Planta</Text>
+                <TouchableOpacity style={styles.card__button} onPress={() => navigation.navigate('Home')}>
+                    <Text style={styles.card__button__text}>Salvar</Text>
                 </TouchableOpacity>
 
                 {showSelect && <SelectType selectedTypes={types} changeTypesState={(types) => setTypes(types)}/>}
@@ -192,4 +197,4 @@ const styles = StyleSheet.create({
     },
 })
 
-export default AddPlant
+export default EditPlant
