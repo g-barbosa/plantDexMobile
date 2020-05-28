@@ -1,9 +1,9 @@
 import React, {useState} from  'react'
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, Image } from 'react-native'
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, Image, ActivityIndicator } from 'react-native'
 
 import FetchService from '../services/FetchService'
 
-import eye from '../../assets/eye.png'
+import Icon from 'react-native-vector-icons/FontAwesome5'
 
 const SignUp = ({navigation}) => {
     const [showPass, setShowPass] = useState(true)
@@ -11,8 +11,10 @@ const SignUp = ({navigation}) => {
     const [password, setPassword] = useState('')
     const [passwordConfirmation, setConfirmPassword] = useState('')
     const [errorMessage, setErrorMessage] = useState('')
+    const [loading, setLoading] = useState(false)
 
     const register = () => {
+        setLoading(true)
         setErrorMessage('')
         if (password !== passwordConfirmation) {
             setErrorMessage('As senhas não são iguais')
@@ -20,8 +22,10 @@ const SignUp = ({navigation}) => {
             FetchService.register({login: login, password: password})
             .then(response => {
                 if (response.data != null ) {
+                    setLoading(false)
                     navigation.navigate('Login')
                 } else {
+                    setLoading(false)
                     setErrorMessage(response.errors[0].message)
                 }
             })
@@ -51,11 +55,12 @@ const SignUp = ({navigation}) => {
                 <Text style={styles.errorMessage}>{errorMessage}</Text>
 
                 <TouchableOpacity style={styles.main__eye} onPress={() => setShowPass(!showPass)}>
-                    <Image source={eye}/>
+                    <Icon name='eye' size={20} color="#099820"/>
                 </TouchableOpacity>
                 
                 <TouchableOpacity style={styles.main__button} onPress={register}>
-                    <Text style={styles.main__button__text}>Cadastrar</Text>
+                    {loading && <ActivityIndicator animating={loading} color="white" size="large"/>}
+                    {!loading && <Text style={styles.main__button__text}>Cadastrar</Text>}
                 </TouchableOpacity>
             </View>
             <View style={styles.registerWrapper}>
@@ -97,7 +102,7 @@ const styles = StyleSheet.create({
 
     main__eye: {
         position: "absolute",
-        top: 95,
+        top: 92,
         left: "86%"
     },
 

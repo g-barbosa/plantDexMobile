@@ -119,4 +119,25 @@ export default class FetchSerice {
         const response = data.json()
         return response
     }
+
+    static async deletePlant(id) {
+        const token = await AsyncStorage.getItem('@token')
+
+        const requestInfo = {
+            method: 'POST',
+            body: JSON.stringify({
+                query: `mutation{
+                    deletePlant(id: ${id})
+                }` 
+            }),
+            headers: new Headers({
+                "Content-type": "application/json",
+                "Accept": "application/json",
+                "Authorization": token
+            })
+        }
+        const data = await fetch(uri, requestInfo)
+        const response = data.json()
+        return response      
+    }
 }

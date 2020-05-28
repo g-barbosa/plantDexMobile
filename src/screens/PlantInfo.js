@@ -1,28 +1,31 @@
-import React, {useLayoutEffect} from 'react'
-import { View, Text, StyleSheet, Dimensions, Image, TouchableOpacity } from  'react-native'
+import React from 'react'
+import { View, Text, StyleSheet, Dimensions, Image, Alert, ToastAndroid } from  'react-native'
+import FetchService from '../services/FetchService'
 
 const width = Dimensions.get('screen').width
 
-import editIcon from '../../assets/edit.png'
+import Icon from 'react-native-vector-icons/FontAwesome5'
 
 const PlantInfo = ({navigation, route}) => {
     const {params} = route
 
-    useLayoutEffect(() => {
-        navigation.setOptions({
-            headerRight: () => (
-                <TouchableOpacity onPress={() => navigation.navigate('Edit', {
-                    id: params.id,
-                    name: params.name,
-                    scientificName: params.scientificName,
-                    types: params.types,
-                    informations: params.informations,
-                    image: params.image
-                })}>
-                  <Image style={{marginRight: 15}} source={editIcon}/>
-                </TouchableOpacity>)
-        })
-    })
+    const DeleteAlert = () => {
+        Alert.alert(
+            "Excluir Planta",
+            "Tem certeza que deseja excluir esta planta?",
+            [
+                { text: "Cancelar", style: "cancel" },
+                { text: "Confirmar", onPress: async () => {
+                    await FetchService.deletePlant(params.id)
+                    .then(response => {
+                        ToastAndroid.show(response.data.deletePlant, ToastAndroid.SHORT)
+                        navigation.navigate('Home')
+                    })
+                } },
+            ],
+            { cancelable: false }
+        )
+    }
 
     return (
         <View style={styles.container}>
@@ -49,8 +52,19 @@ const PlantInfo = ({navigation, route}) => {
                         <Text style={styles.informations__textContainer__text}>{params.informations}</Text>
                     </View>
                 </View>
-            </View>
+            </View>  
             <Image style={styles.PlantImage} source={{uri: params.image}}/>
+            <View style={styles.footer}>
+                <Icon name='edit' size={20} color="#099820" onPress={() => navigation.navigate('Edit', {
+                    id: params.id,
+                    name: params.name,
+                    scientificName: params.scientificName,
+                    types: params.types,
+                    informations: params.informations,
+                    image: params.image
+                })}/>
+                <Icon name='trash-alt' size={20} color="#099820" onPress={DeleteAlert}/>
+            </View>
         </View>
     )
 }
@@ -65,7 +79,8 @@ const styles = StyleSheet.create({
 
     PlantImage: {
         width: 120, 
-        height: 120, 
+        height: 120,
+        borderWidth: 1,
         borderRadius: 35, 
         margin: 10,
         position: "absolute",
@@ -77,8 +92,8 @@ const styles = StyleSheet.create({
         height: "90%",
         width: width * 0.9,
         backgroundColor: "#FFF",
-        flex: 0.9,
-        borderRadius: 12
+        flex: 0.98,
+        borderRadius: 12,
     },
 
     card__plantName: {
@@ -153,6 +168,16 @@ const styles = StyleSheet.create({
         margin: 10,
         color: "black",
         fontSize: 14
+    },
+
+    footer: {
+        //backgroundColor: "pink",
+        display: "flex",
+        alignItems: "center",
+        flexDirection: "row",
+        justifyContent: "space-between",
+        width: width * 0.9,
+        height: 50
     }
 
 })

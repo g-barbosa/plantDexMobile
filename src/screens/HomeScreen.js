@@ -3,20 +3,17 @@ import {
     View, 
     StyleSheet, 
     ImageBackground, 
-    Text, 
     Image, 
     TextInput, 
     Dimensions, 
     FlatList, 
     TouchableOpacity, 
     RefreshControl } from  'react-native'
-
-import backImage from '../../assets/logo-background.png'
-import searchIcon from '../../assets/search-icon.png'
-import addIcon from '../../assets/add-icon.png'
 import AsyncStorage from '@react-native-community/async-storage'
-
 import FetchService from '../services/FetchService'
+
+import Icon from 'react-native-vector-icons/FontAwesome'
+import backImage from '../../assets/logo-background.png'
 
 const width = Dimensions.get('screen').width
 
@@ -35,8 +32,8 @@ const HomeScreen = ({navigation}) => {
     }
 
     useEffect(() => {
-        getData()
-    }, [])
+        navigation.addListener('focus', () => getData())
+    }, [navigation])
 
     const filter = (name) => {
         name = name.toLowerCase()
@@ -73,7 +70,7 @@ const HomeScreen = ({navigation}) => {
                         onChangeText={(txt) => filter(txt)}
                         placeholder='Pesquisar planta'/>
 
-                    <Image style={styles.header__icon} source={searchIcon}/>
+                    <Icon name='search' style={styles.header__icon} size={20} color="#099820"/>
                 </View>
 
                 <FlatList 
@@ -86,7 +83,7 @@ const HomeScreen = ({navigation}) => {
                         if (item.plusImage){
                             return (
                                 <TouchableOpacity style={styles.flatList__addIcon} onPress={() => navigation.navigate("AddPlant")}>
-                                    <Image style={{width:40, height: 40}} source={addIcon}/>
+                                    <Icon name='plus' size={40} color="#099820"/>
                                 </TouchableOpacity> 
                             )
                         }
@@ -109,7 +106,7 @@ const HomeScreen = ({navigation}) => {
                     refreshControl={ <RefreshControl refreshing={refreshing} onRefresh={push}/> }
                 />
                 <TouchableOpacity style={styles.logout} onPress={logout}>
-                    <Text style={styles.logout__text}>Sair</Text>
+                    <Icon name='power-off' size={30} color="#099820"/>
                 </TouchableOpacity>
             </ImageBackground>
         </View>
@@ -146,8 +143,9 @@ const styles = StyleSheet.create({
 
     header__icon: {
         position: 'absolute',
-        top: 12,
-        left: "95%"
+        top: 10,
+        left: "95%",
+        width: 20
     },
 
     flatList: {
@@ -172,7 +170,7 @@ const styles = StyleSheet.create({
     logout: {
         display: "flex", 
         alignItems: "flex-end", 
-        width: width * 0.95
+        width: width * 0.9
     },
 
     logout__text: {

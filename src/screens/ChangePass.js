@@ -1,10 +1,11 @@
 import React, {useState} from  'react'
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, Image } from 'react-native'
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, Image, ActivityIndicator } from 'react-native'
 
-import eye from '../../assets/eye.png'
+import Icon from 'react-native-vector-icons/FontAwesome5'
 
 const ChangePass = ({navigation}) => {
     const [showPass, setShowPass] = useState(true)
+    const [loading, setLoading] = useState(false)
 
     return (
         <View style={styles.container}>
@@ -20,11 +21,12 @@ const ChangePass = ({navigation}) => {
                     placeholder='Digite novamente sua senha'/>
 
                 <TouchableOpacity style={styles.main__eye} onPress={() => setShowPass(!showPass)}>
-                    <Image source={eye}/>
+                    <Icon name='eye' size={20} color="#099820"/>
                 </TouchableOpacity>
                 
                 <TouchableOpacity style={styles.main__button} onPress={() => navigation.navigate('Login')}>
-                    <Text style={styles.main__button__text}>Salvar</Text>
+                    {loading && <ActivityIndicator animating={loading} color="white" size="large"/>}
+                    {!loading && <Text style={styles.main__button__text}>Salvar</Text>}          
                 </TouchableOpacity>
             </View>
         </View>
@@ -61,7 +63,7 @@ const styles = StyleSheet.create({
 
     main__eye: {
         position: "absolute",
-        top: 20,
+        top: 18,
         left: "86%"
     },
 

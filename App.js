@@ -3,7 +3,7 @@ import { NavigationContainer, DarkTheme, DefaultTheme } from '@react-navigation/
 import { createStackNavigator } from '@react-navigation/stack';
 import AsyncStorage from '@react-native-community/async-storage';
 
-import { StyleSheet, TouchableOpacity, Image } from 'react-native'
+import { StyleSheet } from 'react-native'
 
 import Login from './src/screens/Login'
 import HomeScreen  from './src/screens/HomeScreen'
@@ -12,7 +12,6 @@ import ChangePass from './src/screens/ChangePass'
 import PlantInfo from './src/screens/PlantInfo'
 import AddPlant from './src/screens/AddPlant'
 
-import editIcon from './assets/edit.png'
 import EditPlant from './src/screens/EditPlant';
 
 const Stack = createStackNavigator()
