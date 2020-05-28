@@ -21,6 +21,7 @@ const Login = ({navigation}) => {
         .then(response => {
             if (response.data.login != null){
                 AsyncStorage.setItem('@token', response.data.login.token)
+                AsyncStorage.setItem('@user_id', response.data.login.id.toString())
                 navigation.navigate('Home')
             } else{
                 setErrorMessage(response.errors[0].message)

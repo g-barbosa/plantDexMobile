@@ -1,6 +1,16 @@
 import React, { useState } from 'react'
-import { View, Text, StyleSheet, Dimensions, TextInput, TouchableOpacity, Image, ScrollView } from  'react-native'
+import { 
+    View, 
+    Text, 
+    StyleSheet, 
+    Dimensions, 
+    TextInput, 
+    TouchableOpacity, 
+    Image, 
+    ScrollView,
+    ToastAndroid } from  'react-native'
 import ImagePicker from 'react-native-image-picker'
+import AsyncStorage from '@react-native-community/async-storage';
 
 import SelectType from '../components/SelectType'
 
@@ -28,15 +38,17 @@ const AddPlant = ({navigation}) => {
     const [image, setImage] = useState('')
 
     const Add = async () => {
+        const user_id = await AsyncStorage.getItem('@user_id')
         await FetchService.AddPlant({
             name: name,
             scientificName: scientificName,
             types: types,
             informations: informations,
             image: image.uri,
-            user_id: 1
+            user_id: user_id
         }, types)
         .then(response => {
+            ToastAndroid.show(response.data.registerPlant, ToastAndroid.SHORT)
             navigation.navigate('Home')
         })
     }

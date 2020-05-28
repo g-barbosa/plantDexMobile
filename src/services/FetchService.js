@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-community/async-storage';
 
-const uri = 'http://plantdex.herokuapp.com/'
+const uri = 'https://plantdex.herokuapp.com/'
 
 export default class FetchSerice {
     static async login({login, password}) {
@@ -9,7 +9,8 @@ export default class FetchSerice {
             body: JSON.stringify({
                 query: `query{
                     login(data:{login:"${login}",password:"${password}"}){
-                        token
+                        token,
+                        id
                     }
                 }`
             }),
@@ -92,9 +93,9 @@ export default class FetchSerice {
         return response
     }
 
-    static async updatePlant(plantInfo, types) {
-        const {name, scientificName, informations, image, user_id, plant_id} = plantInfo
-
+    static async updatePlant(plant_id, plantInfo, types) {
+        const token = await AsyncStorage.getItem('@token')
+        const {name, scientificName, informations, image, user_id } = plantInfo
         const requestInfo = {
             method: 'POST',
             body: JSON.stringify({
@@ -104,7 +105,7 @@ export default class FetchSerice {
                         scientificName: "${scientificName}", 
                         informations: "${informations}", 
                         image: "${image}",
-                        user_id: ${user_id}
+                        user_id: ${parseInt(user_id)}
                     }, types: [${types}])
                 }` 
             }),
