@@ -1,6 +1,16 @@
 import React, { useState } from 'react'
-import { View, Text, StyleSheet, Dimensions, TextInput, TouchableOpacity, Image, ScrollView } from  'react-native'
+import { 
+    View, 
+    Text, 
+    StyleSheet, 
+    Dimensions, 
+    TextInput, 
+    TouchableOpacity, 
+    Image, 
+    ScrollView, 
+    ToastAndroid } from  'react-native'
 import ImagePicker from 'react-native-image-picker'
+import AsyncStorage from '@react-native-community/async-storage';
 
 import SelectType from '../components/SelectType'
 
@@ -30,15 +40,17 @@ const EditPlant = ({navigation, route}) => {
     const [image, setImage] = useState({uri: params.image})
 
     const save = async () => {
+        const user_id = await AsyncStorage.getItem('@user_id')
         await FetchService.updatePlant(params.id, {
             name: name,
             scientificName: scientificName,
             types: types,
             informations: informations,
             image: image.uri,
-            user_id: 1
+            user_id: user_id
         }, types)
-        .then(response => {
+        .then((response) => {
+            ToastAndroid.show(response.data.updatePlant, ToastAndroid.SHORT)
             navigation.navigate('Home')
         })
     }
@@ -80,7 +92,7 @@ const EditPlant = ({navigation, route}) => {
                     </View>
                 </View>
 
-                <TouchableOpacity style={styles.card__button} onPress={() => navigation.navigate('Home')}>
+                <TouchableOpacity style={styles.card__button} onPress={save}>
                     <Text style={styles.card__button__text}>Salvar</Text>
                 </TouchableOpacity>
 

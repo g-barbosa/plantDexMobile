@@ -22,12 +22,14 @@ const width = Dimensions.get('screen').width
 
 const HomeScreen = ({navigation}) => {
     const [plants, SetPlants] = useState([])
+    const [data, setData] = useState([])
     const [refreshing, setRefreshing] = useState(false)
 
     const getData = async() => {
         await FetchService.getPlants()
         .then(response => {
             SetPlants(response.data.plants)
+            setData(response.data.plants)
         })
         setRefreshing(false)     
     }
@@ -35,6 +37,22 @@ const HomeScreen = ({navigation}) => {
     useEffect(() => {
         getData()
     }, [])
+
+    const filter = (name) => {
+        name = name.toLowerCase()
+        let fullList = plants
+        let filtered = fullList.filter((plant) => {
+            if (plant.name.toLowerCase().match(name))
+                return plant
+        })
+        if (!name || name === '') {
+            setData(fullList)
+        } else if (!filtered.length) {
+            setData([])
+        } else if (Array.isArray(filtered)) {
+            setData(filtered)
+        }
+    }
 
     const push = () =>{
         setRefreshing(true)
@@ -52,6 +70,7 @@ const HomeScreen = ({navigation}) => {
                 <View style={styles.header}>
                     <TextInput style={styles.header__input}
                         placeholderTextColor="#656363"
+                        onChangeText={(txt) => filter(txt)}
                         placeholder='Pesquisar planta'/>
 
                     <Image style={styles.header__icon} source={searchIcon}/>
@@ -59,7 +78,7 @@ const HomeScreen = ({navigation}) => {
 
                 <FlatList 
                     style={styles.flatList}
-                    data={[...plants, { plusImage: true }]}
+                    data={[...data, { plusImage: true }]}
                     keyExtractor={item => item.id}
                     horizontal={false}
                     numColumns={3}
@@ -159,7 +178,7 @@ const styles = StyleSheet.create({
     logout__text: {
         fontWeight: 'bold', 
         fontSize: 20, 
-        color: "#95fe9d"
+        color: "black"
     }
 })
 
