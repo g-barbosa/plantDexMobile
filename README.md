@@ -13,7 +13,7 @@ This project is a kind of "Pokedex" app for plants. The user can register his pl
 - [:heavy_check_mark:] Detail Screen
 - [:heavy_check_mark:] Add Plant Screen
 - [:heavy_check_mark:] Edit Plant Screen
-- [:heavy_check_mark:] Delete Plant Option
+- [:x:] Delete Plant Option
 - [:x:] Dark Mode
 
 ### Setting The Environment
