@@ -1,11 +1,12 @@
 import React, {useState} from  'react'
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, Image, YellowBox } from 'react-native'
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, Image, YellowBox, ActivityIndicator } from 'react-native'
 import AsyncStorage from '@react-native-community/async-storage';
+import Icon from 'react-native-vector-icons/FontAwesome5'
+//Icon.loadFont();
 
 import FetchService from '../services/FetchService'
 
 import logo from "../../assets/logo-header.png"
-import eye from '../../assets/eye.png'
 
 YellowBox.ignoreWarnings(['Require cycle:'])
 
@@ -14,16 +15,20 @@ const Login = ({navigation}) => {
     const [login, setLogin] = useState('')
     const [password, setPassword] = useState('')
     const [errorMessage, setErrorMessage] = useState('')
+    const [loading, setLoading] = useState(false)
 
     const SignIn = () => {
+        setLoading(true)
         setErrorMessage('')
         FetchService.login({login: login, password: password})
         .then(response => {
             if (response.data.login != null){
                 AsyncStorage.setItem('@token', response.data.login.token)
                 AsyncStorage.setItem('@user_id', response.data.login.id.toString())
+                setLoading(false)
                 navigation.navigate('Home')
             } else{
+                setLoading(false)
                 setErrorMessage(response.errors[0].message)
             }
         })
@@ -53,11 +58,12 @@ const Login = ({navigation}) => {
                 </TouchableOpacity>
 
                 <TouchableOpacity style={styles.main__eye} onPress={() => setShowPass(!showPass)}>
-                    <Image source={eye}/>
+                    <Icon name='eye' size={20} color="#099820"/>
                 </TouchableOpacity>
                 
                 <TouchableOpacity style={styles.main__button} onPress={SignIn}>
-                    <Text style={styles.main__button__text}>Entrar</Text>
+                    {loading && <ActivityIndicator animating={loading} color="white" size="large"/>}
+                    {!loading && <Text style={styles.main__button__text}>Entrar</Text>}
                 </TouchableOpacity>
             </View>
             <View style={styles.registerWrapper}>
@@ -106,7 +112,7 @@ const styles = StyleSheet.create({
 
     main__eye: {
         position: "absolute",
-        top: 98,
+        top: 92,
         left: "86%"
     },
 

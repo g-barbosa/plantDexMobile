@@ -8,15 +8,14 @@ import {
     TouchableOpacity, 
     Image, 
     ScrollView, 
+    ActivityIndicator,
     ToastAndroid } from  'react-native'
 import ImagePicker from 'react-native-image-picker'
 import AsyncStorage from '@react-native-community/async-storage';
 
 import SelectType from '../components/SelectType'
 
-import photo from '../../assets/photo-icon.png'
-import warning from '../../assets/warning-icon.png'
-import downArrow from '../../assets/down-arrow.png'
+import Icon from 'react-native-vector-icons/FontAwesome5'
 
 import FetchService from '../services/FetchService'
 
@@ -38,8 +37,10 @@ const EditPlant = ({navigation, route}) => {
     const [types, setTypes] = useState([false, false, false, false])
     const [informations, setInformations] = useState(params.informations)
     const [image, setImage] = useState({uri: params.image})
+    const [loading, setLoading] = useState(false)
 
     const save = async () => {
+        setLoading(true)
         const user_id = await AsyncStorage.getItem('@user_id')
         await FetchService.updatePlant(params.id, {
             name: name,
@@ -50,6 +51,7 @@ const EditPlant = ({navigation, route}) => {
             user_id: user_id
         }, types)
         .then((response) => {
+            setLoading(false)
             ToastAndroid.show(response.data.updatePlant, ToastAndroid.SHORT)
             navigation.navigate('Home')
         })
@@ -75,7 +77,7 @@ const EditPlant = ({navigation, route}) => {
                     placeholder='Tipo'/>
 
                 <TouchableOpacity style={styles.card__down} onPress={() => setShowSelect(!showSelect)} hitSlop={{left: 300}}>
-                    <Image source={downArrow}/>
+                    <Icon name='chevron-down' size={20} color="#099820"/>
                 </TouchableOpacity>
 
                 <TextInput multiline={true} style={[styles.card__input, {height: 100}]}
@@ -87,13 +89,14 @@ const EditPlant = ({navigation, route}) => {
 
                 <View style={styles.warning}>
                     <View style={styles.warning__items}>
-                        <Image style={{marginRight: 10}} source={warning}/>
+                        <Icon name='exclamation-triangle' style={{marginRight: 15}} size={20} color="red"/>
                         <Text style={styles.warning__text}>{'As informações devem\nconter até 130 caracteres.'}</Text>
                     </View>
                 </View>
 
                 <TouchableOpacity style={styles.card__button} onPress={save}>
-                    <Text style={styles.card__button__text}>Salvar</Text>
+                    {loading && <ActivityIndicator animating={loading} color="white" size="large"/>}
+                    {!loading && <Text style={styles.card__button__text}>Salvar</Text>}
                 </TouchableOpacity>
 
                 {showSelect && <SelectType selectedTypes={types} changeTypesState={(types) => setTypes(types)}/>}
@@ -103,7 +106,7 @@ const EditPlant = ({navigation, route}) => {
                 <TouchableOpacity style={{margin: 15}} hitSlop={{left: 300, top: 300}}  onPress={() => ImagePicker.launchImageLibrary(options, (response) => {
                     setImage({uri: 'data:image/jpeg;base64,' + response.data})
                 })}>
-                    <Image source={photo}/>
+                    <Icon name='camera' size={20} color="#099820"/>
                 </TouchableOpacity>
             </View>
         </ScrollView>
@@ -167,7 +170,7 @@ const styles = StyleSheet.create({
     card__down: {
         position: "absolute",
         top: 242,
-        left: "86%",
+        left: "80%",
         width: 30,
         height: 30,
         justifyContent: "center",
