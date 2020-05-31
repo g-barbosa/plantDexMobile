@@ -1,11 +1,36 @@
 import React, {useState} from  'react'
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, Image, ActivityIndicator } from 'react-native'
-
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, ActivityIndicator, ToastAndroid } from 'react-native'
+import FetchService from '../services/FetchService'
 import Icon from 'react-native-vector-icons/FontAwesome5'
 
 const ChangePass = ({navigation}) => {
     const [showPass, setShowPass] = useState(true)
     const [loading, setLoading] = useState(false)
+    const [errorMessage, setErrorMessage] = useState('')
+    const [password, setPassword] = useState('')
+    const [newPassword, setNewPassword] = useState('')
+    const [newConfirmPassword, setNewConfirmPassword] = useState('')
+
+    const save = () => {
+        setLoading(true)
+        setErrorMessage('')
+        if (newPassword !== newConfirmPassword) {
+            setLoading(false)
+            setErrorMessage('As senhas não são iguais')
+        } else {
+            FetchService.changePass(password, newPassword)
+            .then(response => {
+                if (response.data != null ) {
+                    setLoading(false)
+                    ToastAndroid.show(response.data.changePassword, ToastAndroid.SHORT)
+                    navigation.navigate('Home')
+                } else {
+                    setLoading(false)
+                    setErrorMessage(response.errors[0].message)
+                }               
+            })
+        }
+    }
 
     return (
         <View style={styles.container}>
@@ -13,18 +38,28 @@ const ChangePass = ({navigation}) => {
                 <TextInput style={styles.main__input}
                     placeholderTextColor="#656363"
                     secureTextEntry={showPass}
+                    onChangeText={txt => setPassword(txt)}
+                    placeholder='Digite sua atual senha'/>
+
+                <TextInput style={styles.main__input}
+                    placeholderTextColor="#656363"
+                    secureTextEntry={showPass}
+                    onChangeText={txt => setNewPassword(txt)}
                     placeholder='Digite sua nova senha'/>
 
                 <TextInput style={styles.main__input}
                     placeholderTextColor="#656363"
                     secureTextEntry={showPass}
+                    onChangeText={txt => setNewConfirmPassword(txt)}
                     placeholder='Digite novamente sua senha'/>
+
+                <Text style={styles.errorMessage}>{errorMessage}</Text>
 
                 <TouchableOpacity style={styles.main__eye} onPress={() => setShowPass(!showPass)}>
                     <Icon name='eye' size={20} color="#099820"/>
                 </TouchableOpacity>
                 
-                <TouchableOpacity style={styles.main__button} onPress={() => navigation.navigate('Login')}>
+                <TouchableOpacity style={styles.main__button} onPress={save}>
                     {loading && <ActivityIndicator animating={loading} color="white" size="large"/>}
                     {!loading && <Text style={styles.main__button__text}>Salvar</Text>}          
                 </TouchableOpacity>
@@ -81,6 +116,11 @@ const styles = StyleSheet.create({
         color: "white", 
         fontWeight: "bold", 
         fontSize: 18
+    },
+
+    errorMessage: {
+        color: "red",
+        textAlign: "center"
     }
 })
 

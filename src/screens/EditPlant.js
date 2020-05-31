@@ -64,12 +64,14 @@ const EditPlant = ({navigation, route}) => {
                     placeholderTextColor="#9A9A9A"
                     value={name}
                     onChangeText={txt => setName(txt)}
+                    maxLength={18}
                     placeholder='Nome da Planta'/>
 
                 <TextInput style={styles.card__input}
                     placeholderTextColor="#9A9A9A"
                     value={scientificName}
                     onChangeText={txt => setScientificName(txt)}
+                    maxLength={22}
                     placeholder='Nome Cientifico'/>
 
                 <TextInput editable={false} style={styles.card__input}

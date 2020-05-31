@@ -1,8 +1,7 @@
 import React, {useState} from 'react';
 import { NavigationContainer, DarkTheme, DefaultTheme } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import AsyncStorage from '@react-native-community/async-storage';
-
+import { createDrawerNavigator } from '@react-navigation/drawer'
 import { StyleSheet } from 'react-native'
 
 import Login from './src/screens/Login'
@@ -11,29 +10,27 @@ import SignUp from './src/screens/SignUp'
 import ChangePass from './src/screens/ChangePass'
 import PlantInfo from './src/screens/PlantInfo'
 import AddPlant from './src/screens/AddPlant'
-
-import EditPlant from './src/screens/EditPlant';
+import EditPlant from './src/screens/EditPlant'
+import DrawerContent from './src/screens/DrawerContent'
+import AuthLoadingScreen from './src/screens/AuthLoadingScreen'
 
 const Stack = createStackNavigator()
+const Drawer = createDrawerNavigator()
+
+const Menu = () => {
+  return (
+    <Drawer.Navigator drawerContent={props => <DrawerContent {...props}/>} drawerStyle={{backgroundColor: "#F2FFF1"}}>
+      <Drawer.Screen name='HomeScreen' component={HomeScreen}/>
+    </Drawer.Navigator>
+  )
+}
 
 const App = () => {
-  const [routeName, setRouteName] = useState('Login')
-
-  const getToken = async () => {
-    try {
-      const value = await AsyncStorage.getItem('@token')
-      return value !== null ? 'Home' : 'Login'
-    } catch(e) {
-        console.warn(e)
-    }
-  }
-
-  getToken()
-  .then(response => setRouteName(response))
 
   return (
-    <NavigationContainer >
-      <Stack.Navigator initialRouteName={routeName} screenOptions={{ gestureEnabled: false, headerShown: false }}>
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName={'Auth'} screenOptions={{ gestureEnabled: false, headerShown: false }}>
+        <Stack.Screen name="Auth" component={AuthLoadingScreen} />
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="ChangePass" 
         component={ChangePass}  
@@ -86,7 +83,7 @@ const App = () => {
               headerTitleStyle: Style.titleStyle
             }}
           />
-        <Stack.Screen name="Home" component={HomeScreen} />
+        <Stack.Screen name="Home" component={Menu} />
       </Stack.Navigator>
     </NavigationContainer>
   )

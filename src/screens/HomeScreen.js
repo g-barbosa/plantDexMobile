@@ -11,7 +11,6 @@ import {
     RefreshControl } from  'react-native'
 import AsyncStorage from '@react-native-community/async-storage'
 import FetchService from '../services/FetchService'
-
 import Icon from 'react-native-vector-icons/FontAwesome'
 import backImage from '../../assets/logo-background.png'
 
@@ -65,12 +64,19 @@ const HomeScreen = ({navigation}) => {
         <View style={styles.container}>
             <ImageBackground source={backImage} style={styles.backimage}>
                 <View style={styles.header}>
-                    <TextInput style={styles.header__input}
-                        placeholderTextColor="#656363"
-                        onChangeText={(txt) => filter(txt)}
-                        placeholder='Pesquisar planta'/>
 
-                    <Icon name='search' style={styles.header__icon} size={20} color="#099820"/>
+                    <TouchableOpacity style={{marginBottom: 20 }} onPress={() => navigation.openDrawer()}>
+                        <Icon name='bars' size={25} color="#099820"/>
+                    </TouchableOpacity>
+
+                    <View >
+                        <TextInput style={styles.header__input}
+                            placeholderTextColor="#656363"
+                            onChangeText={(txt) => filter(txt)}
+                            placeholder='Pesquisar planta'/>
+
+                        <Icon name='search' style={styles.header__icon} size={20} color="#099820"/>
+                    </View>
                 </View>
 
                 <FlatList 
@@ -105,9 +111,6 @@ const HomeScreen = ({navigation}) => {
                     }}
                     refreshControl={ <RefreshControl refreshing={refreshing} onRefresh={push}/> }
                 />
-                <TouchableOpacity style={styles.logout} onPress={logout}>
-                    <Icon name='power-off' size={30} color="#099820"/>
-                </TouchableOpacity>
             </ImageBackground>
         </View>
     )
@@ -118,6 +121,14 @@ const styles = StyleSheet.create({
         backgroundColor: "#CCFFC8",
         flex: 1,
         flexDirection: 'column'
+    },
+
+    header: {
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-between",
+        width: width * 0.9
     },
 
     backimage:{
@@ -138,13 +149,13 @@ const styles = StyleSheet.create({
         height: 40,
         marginBottom: 20,
         paddingHorizontal: 15,
-        width: width * 0.9
+        width: width * 0.82
     },
 
     header__icon: {
         position: 'absolute',
-        top: 10,
-        left: "95%",
+        top: 9,
+        left: "88%",
         width: 20
     },
 

@@ -25,6 +25,7 @@ const Login = ({navigation}) => {
             if (response.data.login != null){
                 AsyncStorage.setItem('@token', response.data.login.token)
                 AsyncStorage.setItem('@user_id', response.data.login.id.toString())
+                AsyncStorage.setItem('@login', response.data.login.login)
                 setLoading(false)
                 navigation.navigate('Home')
             } else{
@@ -53,7 +54,7 @@ const Login = ({navigation}) => {
                     onChangeText={txt => setPassword(txt)}
                     placeholder='Digite sua senha'/>
 
-                <TouchableOpacity onPress={() => navigation.navigate('ChangePass')}>
+                <TouchableOpacity>
                     <Text style={styles.main__textForgot}>Esqueceu sua senha?</Text>
                 </TouchableOpacity>
 
