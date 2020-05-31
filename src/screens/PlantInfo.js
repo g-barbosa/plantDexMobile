@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, StyleSheet, Dimensions, Image, Alert, ToastAndroid } from  'react-native'
+import { View, Text, StyleSheet, Dimensions, Image, Alert, ToastAndroid, TouchableOpacity } from  'react-native'
 import FetchService from '../services/FetchService'
 
 const width = Dimensions.get('screen').width
@@ -38,7 +38,7 @@ const PlantInfo = ({navigation, route}) => {
                     <View style={styles.types__types}>
                         {
                             params.types.map(type => (
-                                <View style={styles.types__types__container}>
+                                <View key={type} style={styles.types__types__container}>
                                     <Text style={styles.types__types__container__text}>{type}</Text>
                                 </View>
                             ))
@@ -52,18 +52,23 @@ const PlantInfo = ({navigation, route}) => {
                         <Text style={styles.informations__textContainer__text}>{params.informations}</Text>
                     </View>
                 </View>
-            </View>  
+            </View>
             <Image style={styles.PlantImage} source={{uri: params.image}}/>
             <View style={styles.footer}>
-                <Icon name='edit' size={20} color="#099820" onPress={() => navigation.navigate('Edit', {
+                <TouchableOpacity hitSlop={{right: 150}} onPress={() => navigation.navigate('Edit', {
                     id: params.id,
                     name: params.name,
                     scientificName: params.scientificName,
                     types: params.types,
                     informations: params.informations,
                     image: params.image
-                })}/>
-                <Icon name='trash-alt' size={20} color="#099820" onPress={DeleteAlert}/>
+                })}>
+                    <Icon name='edit' size={20} color="#099820"/>
+                </TouchableOpacity>
+
+                <TouchableOpacity onPress={DeleteAlert} hitSlop={{left: 150}}>
+                    <Icon name='trash-alt' size={20} color="#099820"/>
+                </TouchableOpacity>
             </View>
         </View>
     )

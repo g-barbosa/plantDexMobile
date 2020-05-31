@@ -10,7 +10,8 @@ export default class FetchSerice {
                 query: `query{
                     login(data:{login:"${login}",password:"${password}"}){
                         token,
-                        id
+                        id,
+                        login
                     }
                 }`
             }),
@@ -54,12 +55,13 @@ export default class FetchSerice {
 
     static async getPlants() {
         const token = await AsyncStorage.getItem('@token')
+        const user_id = await AsyncStorage.getItem('@user_id')
 
         const requestInfo = {
             method: 'POST',
             body: JSON.stringify({
                 query: `query{
-                    plants{id, name, scientificName, informations, image, user_id, types}
+                    plants(id: ${parseInt(user_id)}){id, name, scientificName, informations, image, user_id, types}
                 }` 
             }),
             headers: new Headers({
@@ -122,12 +124,13 @@ export default class FetchSerice {
 
     static async deletePlant(id) {
         const token = await AsyncStorage.getItem('@token')
+        const user_id = await AsyncStorage.getItem('@user_id')
 
         const requestInfo = {
             method: 'POST',
             body: JSON.stringify({
                 query: `mutation{
-                    deletePlant(id: ${id})
+                    deletePlant(id: ${id}, user_id: ${parseInt(user_id)})
                 }` 
             }),
             headers: new Headers({
@@ -139,5 +142,31 @@ export default class FetchSerice {
         const data = await fetch(uri, requestInfo)
         const response = data.json()
         return response      
+    }
+
+    static async changePass(password, newPassword) {
+        const token = await AsyncStorage.getItem('@token')
+        const user_id = await AsyncStorage.getItem('@user_id')
+        
+        const requestInfo = {
+            method: 'POST',
+            body: JSON.stringify({
+                query: `mutation{
+                    changePassword(
+                        id: ${parseInt(user_id)}, 
+                        password: "${password}", 
+                        newPassword: "${newPassword}")
+                }` 
+            }),
+            headers: new Headers({
+                "Content-type": "application/json",
+                "Accept": "application/json",
+                "Authorization": token
+            })
+        }
+
+        const data = await fetch(uri, requestInfo)
+        const response = data.json()
+        return response    
     }
 }

@@ -34,7 +34,7 @@ const AddPlant = ({navigation}) => {
     const [scientificName, setScientificName] = useState('')
     const [types, setTypes] = useState([false, false, false, false])
     const [informations, setInformations] = useState('')
-    const [image, setImage] = useState('')
+    const [image, setImage] = useState({uri: null})
     const [loading, setLoading] = useState(false)
 
     const Add = async () => {
@@ -61,11 +61,13 @@ const AddPlant = ({navigation}) => {
                 <TextInput style={styles.card__input}
                     placeholderTextColor="#9A9A9A"
                     onChangeText={txt => setName(txt)}
+                    maxLength={18}
                     placeholder='Nome da Planta'/>
 
                 <TextInput style={styles.card__input}
                     placeholderTextColor="#9A9A9A"
                     onChangeText={txt => setScientificName(txt)}
+                    maxLength={22}
                     placeholder='Nome Cientifico'/>
 
                 <TextInput editable={false} style={styles.card__input}
