@@ -1,12 +1,21 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import { View, Text, StyleSheet, Dimensions, Image, Alert, ToastAndroid, TouchableOpacity } from  'react-native'
 import FetchService from '../services/FetchService'
+import AppTheme from '../components/Theme'
 
 const width = Dimensions.get('screen').width
 
 import Icon from 'react-native-vector-icons/FontAwesome5'
+import ThemeContext from '../../context/ThemeContext'
 
 const PlantInfo = ({navigation, route}) => {
+    const theme = useContext(ThemeContext)[0]
+
+    navigation.setOptions({
+        headerStyle: {height: 50, backgroundColor: AppTheme[theme].homeBackground, elevation:0}, 
+        headerTintColor: AppTheme[theme].icons,
+    })
+
     const {params} = route
 
     const DeleteAlert = () => {
@@ -28,18 +37,18 @@ const PlantInfo = ({navigation, route}) => {
     }
 
     return (
-        <View style={styles.container}>
-            <View style={styles.card}>
-                <Text style={styles.card__plantName}>{params.name}</Text>
-                <Text style={styles.card__scientificName}>{params.scientificName}</Text>
+        <View style={[styles.container, {backgroundColor: AppTheme[theme].homeBackground}]}>
+            <View style={[styles.card, {backgroundColor: AppTheme[theme].secondary}]}>
+                <Text style={[styles.card__plantName, {color: AppTheme[theme].name}]}>{params.name}</Text>
+                <Text style={[styles.card__scientificName, {color: AppTheme[theme].scientificName}]}>{params.scientificName}</Text>
 
                 <View style={styles.types}>
-                    <Text style={styles.types__title}>Tipos</Text>
+                    <Text style={[styles.types__title, {color: AppTheme[theme].text}]}>Tipos</Text>
                     <View style={styles.types__types}>
                         {
                             params.types.map(type => (
-                                <View key={type} style={styles.types__types__container}>
-                                    <Text style={styles.types__types__container__text}>{type}</Text>
+                                <View key={type} style={[styles.types__types__container, {backgroundColor: AppTheme[theme].typesBackground}]}>
+                                    <Text style={[styles.types__types__container__text, {color: AppTheme[theme].typeText}]}>{type}</Text>
                                 </View>
                             ))
                         }
@@ -47,9 +56,9 @@ const PlantInfo = ({navigation, route}) => {
                 </View>
 
                 <View style={styles.informations}>
-                    <Text style={styles.informations__tile}>Informações</Text>
+                    <Text style={[styles.informations__tile, {color: AppTheme[theme].text}]}>Informações</Text>
                     <View style={styles.informations__textContainer}>
-                        <Text style={styles.informations__textContainer__text}>{params.informations}</Text>
+                        <Text style={[styles.informations__textContainer__text, {color: AppTheme[theme].text}]}>{params.informations}</Text>
                     </View>
                 </View>
             </View>
@@ -76,7 +85,7 @@ const PlantInfo = ({navigation, route}) => {
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: "#CCFFC8",
+        //backgroundColor: "#CCFFC8",
         flex: 1,
         flexDirection: 'column',
         alignItems: "center"  
@@ -96,7 +105,7 @@ const styles = StyleSheet.create({
         marginTop: 75,
         height: "90%",
         width: width * 0.9,
-        backgroundColor: "#FFF",
+        //backgroundColor: "#FFF",
         flex: 0.98,
         borderRadius: 12,
     },
@@ -106,7 +115,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         textAlign: "center",
         top: 65,
-        color: "black"
+        //color: "black"
     },
 
     card__scientificName: {
@@ -124,7 +133,7 @@ const styles = StyleSheet.create({
         fontSize: 24,
         fontWeight: "bold",
         textAlign: "center",
-        color: "black"
+        //color: "black"
     },
 
     types__types: {
@@ -136,7 +145,7 @@ const styles = StyleSheet.create({
 
     types__types__container: {
        top: 10,
-       backgroundColor:  "#E1E1E1",
+       //backgroundColor:  "#E1E1E1",
        width: "25%",
        height: 30,
        borderRadius: 20,
@@ -158,7 +167,7 @@ const styles = StyleSheet.create({
         fontSize: 24,
         fontWeight: "bold",
         textAlign: "center",
-        color: "black"   
+        //color: "black"   
     },
 
     informations__textContainer: {
@@ -171,12 +180,11 @@ const styles = StyleSheet.create({
 
     informations__textContainer__text: {
         margin: 10,
-        color: "black",
+        //color: "black",
         fontSize: 14
     },
 
     footer: {
-        //backgroundColor: "pink",
         display: "flex",
         alignItems: "center",
         flexDirection: "row",

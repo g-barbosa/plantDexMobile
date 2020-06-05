@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useContext} from 'react'
 import { 
     View, 
     StyleSheet, 
@@ -10,13 +10,19 @@ import {
     TouchableOpacity, 
     RefreshControl } from  'react-native'
 import AsyncStorage from '@react-native-community/async-storage'
+
+import AppTheme from '../components/Theme'
+import ThemeContext from '../../context/ThemeContext'
 import FetchService from '../services/FetchService'
+
 import Icon from 'react-native-vector-icons/FontAwesome'
 import backImage from '../../assets/logo-background.png'
 
 const width = Dimensions.get('screen').width
 
 const HomeScreen = ({navigation}) => {
+    const theme = useContext(ThemeContext)[0]
+
     const [plants, SetPlants] = useState([])
     const [data, setData] = useState([])
     const [refreshing, setRefreshing] = useState(false)
@@ -61,7 +67,7 @@ const HomeScreen = ({navigation}) => {
     }
 
     return (
-        <View style={styles.container}>
+        <View style={[styles.container, {backgroundColor: AppTheme[theme].homeBackground}]}>
             <ImageBackground source={backImage} style={styles.backimage}>
                 <View style={styles.header}>
 
@@ -70,8 +76,8 @@ const HomeScreen = ({navigation}) => {
                     </TouchableOpacity>
 
                     <View >
-                        <TextInput style={styles.header__input}
-                            placeholderTextColor="#656363"
+                        <TextInput style={[styles.header__input, {backgroundColor: AppTheme[theme].overlays}]}
+                            placeholderTextColor={AppTheme[theme].placeholderText}
                             onChangeText={(txt) => filter(txt)}
                             placeholder='Pesquisar planta'/>
 
@@ -88,8 +94,10 @@ const HomeScreen = ({navigation}) => {
                     renderItem={( { item } ) => {
                         if (item.plusImage){
                             return (
-                                <TouchableOpacity style={styles.flatList__addIcon} onPress={() => navigation.navigate("AddPlant")}>
-                                    <Icon name='plus' size={40} color="#099820"/>
+                                <TouchableOpacity 
+                                    style={[styles.flatList__addIcon, {backgroundColor: AppTheme[theme].overlays}]} 
+                                    onPress={() => navigation.navigate("AddPlant")}>
+                                        <Icon name='plus' size={40} color="#099820"/>
                                 </TouchableOpacity> 
                             )
                         }
@@ -118,7 +126,7 @@ const HomeScreen = ({navigation}) => {
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: "#CCFFC8",
+        //backgroundColor: "#CCFFC8",
         flex: 1,
         flexDirection: 'column'
     },
@@ -142,7 +150,7 @@ const styles = StyleSheet.create({
     },
 
     header__input: {
-        backgroundColor: "#F7F7F7",
+        //backgroundColor: "#F7F7F7",
         borderColor: "#DDD",
         borderWidth: 1,
         borderRadius: 8,
@@ -168,7 +176,7 @@ const styles = StyleSheet.create({
         height: 90, 
         borderRadius: 35, 
         margin: 10, 
-        backgroundColor: "#FFFFFF", 
+        //backgroundColor: "#FFFFFF", 
         alignItems: 'center', 
         justifyContent: "center"
     },

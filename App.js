@@ -1,9 +1,10 @@
-import React, {useState} from 'react';
-import { NavigationContainer, DarkTheme, DefaultTheme } from '@react-navigation/native';
+import React, { useState } from 'react';
+import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator } from '@react-navigation/drawer'
 import { StyleSheet } from 'react-native'
 
+import ThemeContext from './context/ThemeContext'
 import Login from './src/screens/Login'
 import HomeScreen  from './src/screens/HomeScreen'
 import SignUp from './src/screens/SignUp'
@@ -18,16 +19,19 @@ const Stack = createStackNavigator()
 const Drawer = createDrawerNavigator()
 
 const Menu = () => {
+
   return (
-    <Drawer.Navigator drawerContent={props => <DrawerContent {...props}/>} drawerStyle={{backgroundColor: "#F2FFF1"}}>
-      <Drawer.Screen name='HomeScreen' component={HomeScreen}/>
-    </Drawer.Navigator>
+      <Drawer.Navigator drawerContent={props => <DrawerContent {...props}/>} drawerStyle={{backgroundColor: "#F2FFF1"}}>
+        <Drawer.Screen name='HomeScreen' component={HomeScreen}/>
+      </Drawer.Navigator>
   )
 }
 
 const App = () => {
+  const themeHook = useState('light')
 
   return (
+    <ThemeContext.Provider value={themeHook}>
     <NavigationContainer>
       <Stack.Navigator initialRouteName={'Auth'} screenOptions={{ gestureEnabled: false, headerShown: false }}>
         <Stack.Screen name="Auth" component={AuthLoadingScreen} />
@@ -54,13 +58,10 @@ const App = () => {
           }}/>
         <Stack.Screen name="PlantInfo" 
         component={PlantInfo}
-        options={
-          {
+        options={{
             headerTitleAlign: 'center', 
-            headerStyle: {height: 50, backgroundColor: "#CCFFC8", elevation:0}, 
             headerShown: true, 
             title: null, 
-            headerTitleStyle: Style.titleStyle,
           }}/>
         <Stack.Screen name="AddPlant"
         component={AddPlant} 
@@ -86,13 +87,14 @@ const App = () => {
         <Stack.Screen name="Home" component={Menu} />
       </Stack.Navigator>
     </NavigationContainer>
+    </ThemeContext.Provider>
   )
 }
 
 const Style = StyleSheet.create({
   titleStyle: {
     fontWeight: 'bold',
-    color: '#099820'
+    //color: '#099820'
   },
   headerStyle: {
     height: 75,
