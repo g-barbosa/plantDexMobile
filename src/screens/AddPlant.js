@@ -1,22 +1,14 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { 
-    View, 
-    Text, 
-    StyleSheet, 
-    Dimensions, 
-    TextInput, 
-    TouchableOpacity, 
-    Image, 
-    ScrollView,
-    ActivityIndicator,
-    ToastAndroid } from  'react-native'
+    View, Text, StyleSheet, Dimensions, TextInput, 
+    TouchableOpacity, Image, ScrollView, ActivityIndicator, ToastAndroid } from  'react-native'
 import ImagePicker from 'react-native-image-picker'
 import AsyncStorage from '@react-native-community/async-storage';
-
-import SelectType from '../components/SelectType'
-
 import Icon from 'react-native-vector-icons/FontAwesome5'
 
+import ThemeContext from '../../context/ThemeContext'
+import SelectType from '../components/SelectType'
+import AppTheme from '../components/Theme'
 import FetchService from '../services/FetchService'
 
 const width = Dimensions.get('screen').width
@@ -29,6 +21,13 @@ const options = {
 }
 
 const AddPlant = ({navigation}) => {
+    const theme = useContext(ThemeContext)[0]
+
+    navigation.setOptions({
+        headerStyle: {height: 50, backgroundColor: AppTheme[theme].homeBackground, elevation:0}, 
+        headerTintColor: AppTheme[theme].icons,
+    })
+
     const [showSelect, setShowSelect] = useState(false)
     const [name, setName] = useState('')
     const [scientificName, setScientificName] = useState('')
@@ -56,30 +55,31 @@ const AddPlant = ({navigation}) => {
     }
 
     return (
-        <ScrollView style={styles.container} contentContainerStyle={{alignItems: "center"}}> 
-            <View style={styles.card}>
-                <TextInput style={styles.card__input}
-                    placeholderTextColor="#9A9A9A"
+        <ScrollView style={[styles.container, {backgroundColor: AppTheme[theme].homeBackground}]} 
+            contentContainerStyle={{alignItems: "center"}}> 
+            <View style={[styles.card, {backgroundColor: AppTheme[theme].secondary}]}>
+                <TextInput style={[styles.card__input, {backgroundColor: AppTheme[theme].overlays}]}
+                    placeholderTextColor={AppTheme[theme].placeholderText}
                     onChangeText={txt => setName(txt)}
                     maxLength={18}
                     placeholder='Nome da Planta'/>
 
-                <TextInput style={styles.card__input}
-                    placeholderTextColor="#9A9A9A"
+                <TextInput style={[styles.card__input, {backgroundColor: AppTheme[theme].overlays}]}
+                    placeholderTextColor={AppTheme[theme].placeholderText}
                     onChangeText={txt => setScientificName(txt)}
                     maxLength={22}
                     placeholder='Nome Cientifico'/>
 
-                <TextInput editable={false} style={styles.card__input}
-                    placeholderTextColor="#9A9A9A"
+                <TextInput editable={false} style={[styles.card__input, {backgroundColor: AppTheme[theme].overlays}]}
+                    placeholderTextColor={AppTheme[theme].placeholderText}
                     placeholder='Tipo'/>
 
                 <TouchableOpacity style={styles.card__down} onPress={() => setShowSelect(!showSelect)} hitSlop={{left: 300}}>
                     <Icon name='chevron-down' size={20} color="#099820"/>
                 </TouchableOpacity>
 
-                <TextInput multiline={true} style={[styles.card__input, {height: 100}]}
-                    placeholderTextColor="#9A9A9A"
+                <TextInput multiline={true} style={[styles.card__input, {height: 100, backgroundColor: AppTheme[theme].overlays}]}
+                    placeholderTextColor={AppTheme[theme].placeholderText}
                     placeholder='Informações adicionais'
                     onChangeText={txt => setInformations(txt)}
                     maxLength={130}/>
@@ -87,7 +87,9 @@ const AddPlant = ({navigation}) => {
                 <View style={styles.warning}>
                     <View style={styles.warning__items}>
                         <Icon name='exclamation-triangle' style={{marginRight: 15}} size={20} color="red"/>
-                        <Text style={styles.warning__text}>{'As informações devem\nconter até 130 caracteres.'}</Text>
+                        <Text style={[styles.warning__text, {color: AppTheme[theme].warningText}]}>
+                                {'As informações devem\nconter até 130 caracteres.'}
+                        </Text>
                     </View>
                 </View>
 
@@ -98,7 +100,7 @@ const AddPlant = ({navigation}) => {
 
                 {showSelect && <SelectType selectedTypes={types} changeTypesState={(types) => setTypes(types)}/>}
             </View>
-            <View style={styles.PlantImage}>
+            <View style={[styles.PlantImage, {backgroundColor: AppTheme[theme].overlays}]}>
                 <Image source={image} style={styles.selectedImage}/>
                 <TouchableOpacity style={{margin: 15}} hitSlop={{left: 300, top: 300}}  onPress={() => ImagePicker.launchImageLibrary(options, (response) => {
                     setImage({uri: 'data:image/jpeg;base64,' + response.data})
@@ -112,10 +114,8 @@ const AddPlant = ({navigation}) => {
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: "#CCFFC8",
         flex: 1,
         flexDirection: 'column',
-        //alignItems: "center"  
     },
 
     PlantImage: {
@@ -125,7 +125,6 @@ const styles = StyleSheet.create({
         margin: 10,
         position: "absolute",
         top: 2,
-        backgroundColor: "#F2FFF1",
         borderWidth: 1,
         alignItems: "flex-end",
         justifyContent: "flex-end"
@@ -146,14 +145,12 @@ const styles = StyleSheet.create({
         paddingTop: 80,
         height: "90%",
         width: width * 0.9,
-        backgroundColor: "#FFF",
         flex: 0.82,
         borderRadius: 12,
         alignItems: "center",
     },
 
     card__input: {
-        backgroundColor: "#F2FFF1",
         marginTop: 2,
         marginBottom: 25,
         borderColor: "#DDD",
@@ -176,7 +173,7 @@ const styles = StyleSheet.create({
 
     card__button: {
         alignItems: "center",
-        backgroundColor: "#006641",
+        backgroundColor: "#2B983C",
         borderRadius: 8,
         justifyContent: "center",
         height: 60,
@@ -204,7 +201,6 @@ const styles = StyleSheet.create({
     },
 
     warning__text: {
-        color: "#4CB48E",
         lineHeight: 15
     },
 })

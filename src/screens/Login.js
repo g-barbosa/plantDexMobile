@@ -1,8 +1,9 @@
-import React, {useState} from  'react'
+import React, {useState, useContext} from  'react'
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, Image, YellowBox, ActivityIndicator } from 'react-native'
 import AsyncStorage from '@react-native-community/async-storage';
 import Icon from 'react-native-vector-icons/FontAwesome5'
-//Icon.loadFont();
+import ThemeContext from '../../context/ThemeContext'
+import AppTheme from '../components/Theme'
 
 import FetchService from '../services/FetchService'
 
@@ -11,6 +12,8 @@ import logo from "../../assets/logo-header.png"
 YellowBox.ignoreWarnings(['Require cycle:'])
 
 const Login = ({navigation}) => {
+    const theme = useContext(ThemeContext)[0]
+
     const [showPass, setShowPass] = useState(true)
     const [login, setLogin] = useState('')
     const [password, setPassword] = useState('')
@@ -36,20 +39,20 @@ const Login = ({navigation}) => {
     }
 
     return (
-        <View style={styles.container}>
+        <View style={[styles.container, {backgroundColor: AppTheme[theme].logoutBackground}]}>
             <View style={styles.header}>
                 <Image source={logo}/>
                 <Text style={styles.errorMessage}>{errorMessage}</Text>
             </View>
             <View style={styles.main}>
-                <TextInput style={styles.main__input}
-                    placeholderTextColor="#656363"
+                <TextInput style={[styles.main__input, {backgroundColor: AppTheme[theme].secondary, color: AppTheme[theme].text}]}
+                    placeholderTextColor={AppTheme[theme].text}
                     autoCapitalize='none'
                     onChangeText={txt => setLogin(txt)}
                     placeholder='Digite seu login'/>
 
-                <TextInput style={styles.main__input}
-                    placeholderTextColor="#656363"
+                <TextInput style={[styles.main__input, {backgroundColor: AppTheme[theme].secondary, color: AppTheme[theme].text}]}
+                    placeholderTextColor={AppTheme[theme].text}
                     secureTextEntry={showPass}
                     onChangeText={txt => setPassword(txt)}
                     placeholder='Digite sua senha'/>
@@ -59,7 +62,7 @@ const Login = ({navigation}) => {
                 </TouchableOpacity>
 
                 <TouchableOpacity style={styles.main__eye} onPress={() => setShowPass(!showPass)}>
-                    <Icon name='eye' size={20} color="#099820"/>
+                    <Icon name='eye' size={20} color={AppTheme[theme].icons}/>
                 </TouchableOpacity>
                 
                 <TouchableOpacity style={styles.main__button} onPress={SignIn}>
@@ -79,7 +82,7 @@ const Login = ({navigation}) => {
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: "#FFF",
+        //backgroundColor: "#FFF",
         alignItems: "center",
         display: "flex",
         flex: 1,
@@ -94,7 +97,7 @@ const styles = StyleSheet.create({
     },
 
     main__input: {
-        backgroundColor: "#F7F7F7",
+        //backgroundColor: "#F7F7F7",
         borderColor: "#DDD",
         borderWidth: 1,
         borderRadius: 8,

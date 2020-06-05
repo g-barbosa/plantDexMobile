@@ -1,15 +1,8 @@
 import React, {useState, useEffect, useContext} from 'react'
 import { 
-    View, 
-    StyleSheet, 
-    ImageBackground, 
-    Image, 
-    TextInput, 
-    Dimensions, 
-    FlatList, 
-    TouchableOpacity, 
-    RefreshControl } from  'react-native'
-import AsyncStorage from '@react-native-community/async-storage'
+    View, StyleSheet, ImageBackground, 
+    Image, TextInput, Dimensions, 
+    FlatList, TouchableOpacity, RefreshControl } from  'react-native'
 
 import AppTheme from '../components/Theme'
 import ThemeContext from '../../context/ThemeContext'
@@ -59,11 +52,6 @@ const HomeScreen = ({navigation}) => {
     const push = () =>{
         setRefreshing(true)
         getData()
-    }
-
-    const logout = async () => {
-        AsyncStorage.removeItem('@token')
-        navigation.navigate('Login')
     }
 
     return (
@@ -126,7 +114,6 @@ const HomeScreen = ({navigation}) => {
 
 const styles = StyleSheet.create({
     container: {
-        //backgroundColor: "#CCFFC8",
         flex: 1,
         flexDirection: 'column'
     },
@@ -150,7 +137,6 @@ const styles = StyleSheet.create({
     },
 
     header__input: {
-        //backgroundColor: "#F7F7F7",
         borderColor: "#DDD",
         borderWidth: 1,
         borderRadius: 8,
@@ -176,7 +162,6 @@ const styles = StyleSheet.create({
         height: 90, 
         borderRadius: 35, 
         margin: 10, 
-        //backgroundColor: "#FFFFFF", 
         alignItems: 'center', 
         justifyContent: "center"
     },

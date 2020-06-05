@@ -85,7 +85,6 @@ const PlantInfo = ({navigation, route}) => {
 
 const styles = StyleSheet.create({
     container: {
-        //backgroundColor: "#CCFFC8",
         flex: 1,
         flexDirection: 'column',
         alignItems: "center"  
@@ -105,7 +104,6 @@ const styles = StyleSheet.create({
         marginTop: 75,
         height: "90%",
         width: width * 0.9,
-        //backgroundColor: "#FFF",
         flex: 0.98,
         borderRadius: 12,
     },
@@ -115,7 +113,6 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         textAlign: "center",
         top: 65,
-        //color: "black"
     },
 
     card__scientificName: {
@@ -133,7 +130,6 @@ const styles = StyleSheet.create({
         fontSize: 24,
         fontWeight: "bold",
         textAlign: "center",
-        //color: "black"
     },
 
     types__types: {
@@ -145,7 +141,6 @@ const styles = StyleSheet.create({
 
     types__types__container: {
        top: 10,
-       //backgroundColor:  "#E1E1E1",
        width: "25%",
        height: 30,
        borderRadius: 20,
@@ -167,7 +162,6 @@ const styles = StyleSheet.create({
         fontSize: 24,
         fontWeight: "bold",
         textAlign: "center",
-        //color: "black"   
     },
 
     informations__textContainer: {
@@ -180,7 +174,6 @@ const styles = StyleSheet.create({
 
     informations__textContainer__text: {
         margin: 10,
-        //color: "black",
         fontSize: 14
     },
 

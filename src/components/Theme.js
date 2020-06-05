@@ -1,21 +1,22 @@
 const AppTheme = {
     dark: {
-        background: "1F1F1F",
+        logoutBackground: "#1F1F1F",
         homeBackground: "#353535",
         secondary: "#656565",
         icons: "#099820",
         text: "#FFFFFF",
         typeText: "#FFFFFF",
-        placeholderText: "#E5E5E5",
+        placeholderText: "#9A9A9A",
         name: "#000000",
         scientificName: "#C4C4C4",
-        overlays: "#656565",
+        overlays: "#C4C4C4",
         buttons: "#2B983C",
         typesBackground: "#006641",
-        sideMenuBackground: "#1F1F1F"
+        sideMenuBackground: "#1F1F1F",
+        warningText: "#000000" 
     },
     light: {
-        background: "#FFFFFF",
+        logoutBackground: "#FFFFFF",
         homeBackground: "#CCFFC8",
         secondary: "#FFFFFF",
         icons: "#006641",
@@ -27,7 +28,8 @@ const AppTheme = {
         overlays: "#FFFFFF",
         buttons: "#2B983C",
         typesBackground: "#D7FFd3",
-        sideMenuBackground: "#F2FFF1"  
+        sideMenuBackground: "#F2FFF1",
+        warningText: "#4CB48E" 
     }
 }
 

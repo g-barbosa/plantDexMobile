@@ -1,23 +1,15 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { 
-    View, 
-    Text, 
-    StyleSheet, 
-    Dimensions, 
-    TextInput, 
-    TouchableOpacity, 
-    Image, 
-    ScrollView, 
-    ActivityIndicator,
-    ToastAndroid } from  'react-native'
+    View, Text, StyleSheet, Dimensions, TextInput, 
+    TouchableOpacity, Image, ScrollView, ActivityIndicator,ToastAndroid } from  'react-native'
 import ImagePicker from 'react-native-image-picker'
 import AsyncStorage from '@react-native-community/async-storage';
-
-import SelectType from '../components/SelectType'
-
 import Icon from 'react-native-vector-icons/FontAwesome5'
 
+import SelectType from '../components/SelectType'
 import FetchService from '../services/FetchService'
+import ThemeContext from '../../context/ThemeContext'
+import AppTheme from '../components/Theme'
 
 const width = Dimensions.get('screen').width
 
@@ -29,6 +21,13 @@ const options = {
 }
 
 const EditPlant = ({navigation, route}) => {
+    const theme = useContext(ThemeContext)[0]
+
+    navigation.setOptions({
+        headerStyle: {height: 50, backgroundColor: AppTheme[theme].homeBackground, elevation:0}, 
+        headerTintColor: AppTheme[theme].icons,
+    })
+
     const {params} = route
 
     const [showSelect, setShowSelect] = useState(false)
@@ -58,32 +57,34 @@ const EditPlant = ({navigation, route}) => {
     }
 
     return (
-        <ScrollView style={styles.container} contentContainerStyle={{alignItems: "center"}}> 
-            <View style={styles.card}>
-                <TextInput style={styles.card__input}
-                    placeholderTextColor="#9A9A9A"
+        <ScrollView 
+            style={[styles.container, {backgroundColor: AppTheme[theme].homeBackground}]} 
+            contentContainerStyle={{alignItems: "center"}}> 
+            <View style={[styles.card, {backgroundColor: AppTheme[theme].secondary}]}>
+                <TextInput style={[styles.card__input, {backgroundColor: AppTheme[theme].overlays}]}
+                    placeholderTextColor={AppTheme[theme].placeholderText}
                     value={name}
                     onChangeText={txt => setName(txt)}
                     maxLength={18}
                     placeholder='Nome da Planta'/>
 
-                <TextInput style={styles.card__input}
-                    placeholderTextColor="#9A9A9A"
+                <TextInput style={[styles.card__input, {backgroundColor: AppTheme[theme].overlays}]}
+                    placeholderTextColor={AppTheme[theme].placeholderText}
                     value={scientificName}
                     onChangeText={txt => setScientificName(txt)}
                     maxLength={22}
                     placeholder='Nome Cientifico'/>
 
-                <TextInput editable={false} style={styles.card__input}
-                    placeholderTextColor="#9A9A9A"
+                <TextInput editable={false} style={[styles.card__input, {backgroundColor: AppTheme[theme].overlays}]}
+                    placeholderTextColor={AppTheme[theme].placeholderText}
                     placeholder='Tipo'/>
 
                 <TouchableOpacity style={styles.card__down} onPress={() => setShowSelect(!showSelect)} hitSlop={{left: 300}}>
                     <Icon name='chevron-down' size={20} color="#099820"/>
                 </TouchableOpacity>
 
-                <TextInput multiline={true} style={[styles.card__input, {height: 100}]}
-                    placeholderTextColor="#9A9A9A"
+                <TextInput multiline={true} style={[styles.card__input, {height: 100, backgroundColor: AppTheme[theme].overlays}]}
+                    placeholderTextColor={AppTheme[theme].placeholderText}
                     placeholder='Informações adicionais'
                     value={informations}
                     onChangeText={txt => setInformations(txt)}
@@ -92,7 +93,9 @@ const EditPlant = ({navigation, route}) => {
                 <View style={styles.warning}>
                     <View style={styles.warning__items}>
                         <Icon name='exclamation-triangle' style={{marginRight: 15}} size={20} color="red"/>
-                        <Text style={styles.warning__text}>{'As informações devem\nconter até 130 caracteres.'}</Text>
+                        <Text style={[styles.warning__text, {color: AppTheme[theme].warningText}]}>
+                            {'As informações devem\nconter até 130 caracteres.'}
+                        </Text>
                     </View>
                 </View>
 
@@ -181,7 +184,7 @@ const styles = StyleSheet.create({
 
     card__button: {
         alignItems: "center",
-        backgroundColor: "#006641",
+        backgroundColor: "#2B983C",
         borderRadius: 8,
         justifyContent: "center",
         height: 60,
