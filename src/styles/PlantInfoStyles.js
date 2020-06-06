@@ -6,7 +6,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         flexDirection: 'column',
-        alignItems: "center"  
+        //alignItems: "center"  
     },
 
     PlantImage: {
@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
         marginTop: 75,
         height: "90%",
         width: width * 0.9,
-        flex: 0.98,
+        flex: 0.9,
         borderRadius: 12,
     },
 
@@ -31,18 +31,18 @@ const styles = StyleSheet.create({
         fontSize: 30,
         fontWeight: 'bold',
         textAlign: "center",
-        top: 65,
+        marginTop: 65,
     },
 
     card__scientificName: {
         fontSize: 26,
         fontWeight: 'bold',
         textAlign: "center",
-        top: 65,
+        marginTop: 2,
     },
 
     types: {
-        top: 130
+        marginTop: 35
     },
 
     types__title: {
@@ -59,8 +59,8 @@ const styles = StyleSheet.create({
     },
 
     types__types__container: {
-       top: 10,
-       width: "25%",
+       marginTop: 10,
+       width: "20%",
        height: 30,
        borderRadius: 20,
        alignItems: "center",
@@ -73,8 +73,9 @@ const styles = StyleSheet.create({
     },
 
     informations: {
-        top: 200,
-        alignItems: "center"
+        marginTop: 80,
+        alignItems: "center",
+        marginBottom: 65
     },
 
     informations__tile: {
@@ -88,7 +89,7 @@ const styles = StyleSheet.create({
         borderWidth: 0.5,
         borderRadius: 10,
         width: "80%",
-        height: "40%"
+        height: "45%"
     },
 
     informations__textContainer__text: {
@@ -99,10 +100,11 @@ const styles = StyleSheet.create({
     footer: {
         display: "flex",
         alignItems: "center",
+        alignContent: "center",
         flexDirection: "row",
         justifyContent: "space-between",
         width: width * 0.9,
-        height: 50
+        height: 45,
     }
 })
 
