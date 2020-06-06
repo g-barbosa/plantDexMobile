@@ -1,11 +1,16 @@
-import React, {useState} from 'react'
+import React, {useState, useContext} from 'react'
 import { View, Text } from 'react-native'
 import { DrawerItem, DrawerContentScrollView } from '@react-navigation/drawer'
 import AsyncStorage from '@react-native-community/async-storage'
 import Icon from 'react-native-vector-icons/FontAwesome5'
 
+import ThemeContext from '../../context/ThemeContext'
+import AppTheme from '../components/Theme'
+
 const DrawerContent = ({navigation}, props) => {
-    const [modeState, setModeState] = useState(false)
+    const theme = useContext(ThemeContext)[0]
+
+    const [modeState, setModeState] = useContext(ThemeContext)
     const [login, setLogin] = useState('...')
 
     const getUserName = async () => {
@@ -21,33 +26,33 @@ const DrawerContent = ({navigation}, props) => {
     }
 
     return (
-        <View style={{flex: 1}}>
+        <View style={{flex: 1, backgroundColor: AppTheme[theme].sideMenuBackground}}>
             <DrawerContentScrollView {...props}>
-                <Text style={{textAlign: "center", color: "#006641", fontWeight: "bold", margin: 10}}>{login}</Text>
+                <Text style={{textAlign: "center", color: "#099820", fontWeight: "bold", margin: 10}}>{login}</Text>
 
                 <DrawerItem 
                     icon={() => <Icon name='lock' size={20} color="#099820"/>}
                     onPress={() => navigation.navigate('ChangePass')}
-                    labelStyle={{color: "#006641", fontWeight: "bold"}} 
+                    labelStyle={{color: AppTheme[theme].text, fontWeight: "bold"}} 
                     label="Alterar Senha"/>
-                {!modeState && 
+                {modeState === 'dark' && 
                     <DrawerItem 
                         icon={() => <Icon name='sun' size={20} color="#099820"/>} 
-                        onPress={() => setModeState(true)} 
-                        labelStyle={{color: "#006641", fontWeight: "bold"}} 
+                        onPress={() => setModeState('light')} 
+                        labelStyle={{color: AppTheme[theme].text, fontWeight: "bold"}} 
                         label="Modo Diurno"/>}
 
-                {modeState && 
+                {modeState === 'light' && 
                 <DrawerItem 
                     icon={() => <Icon name='moon' size={20} color="#099820"/>} 
-                    onPress={() => setModeState(false)} 
-                    labelStyle={{color: "#006641", fontWeight: "bold"}} 
+                    onPress={() => setModeState('dark')} 
+                    labelStyle={{color: AppTheme[theme].text, fontWeight: "bold"}} 
                     label="Modo Noturno"/>}
 
                 <DrawerItem 
                     icon={() => <Icon name='power-off' size={20} color="#099820"/>} 
                     onPress={logout} 
-                    labelStyle={{color: "#006641", fontWeight: "bold"}} 
+                    labelStyle={{color: AppTheme[theme].text, fontWeight: "bold"}} 
                     label="Sair"/>
             </DrawerContentScrollView>
         </View>

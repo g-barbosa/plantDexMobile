@@ -1,22 +1,19 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect, useContext} from 'react'
 import { 
-    View, 
-    StyleSheet, 
-    ImageBackground, 
-    Image, 
-    TextInput, 
-    Dimensions, 
-    FlatList, 
-    TouchableOpacity, 
-    RefreshControl } from  'react-native'
-import AsyncStorage from '@react-native-community/async-storage'
+    View, ImageBackground, 
+    Image, TextInput, Dimensions, 
+    FlatList, TouchableOpacity, RefreshControl } from  'react-native'
+
+import AppTheme from '../components/Theme'
+import ThemeContext from '../../context/ThemeContext'
 import FetchService from '../services/FetchService'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import backImage from '../../assets/logo-background.png'
-
-const width = Dimensions.get('screen').width
+import styles from '../styles/HomeScreenStyles'
 
 const HomeScreen = ({navigation}) => {
+    const theme = useContext(ThemeContext)[0]
+
     const [plants, SetPlants] = useState([])
     const [data, setData] = useState([])
     const [refreshing, setRefreshing] = useState(false)
@@ -55,13 +52,8 @@ const HomeScreen = ({navigation}) => {
         getData()
     }
 
-    const logout = async () => {
-        AsyncStorage.removeItem('@token')
-        navigation.navigate('Login')
-    }
-
     return (
-        <View style={styles.container}>
+        <View style={[styles.container, {backgroundColor: AppTheme[theme].homeBackground}]}>
             <ImageBackground source={backImage} style={styles.backimage}>
                 <View style={styles.header}>
 
@@ -70,8 +62,8 @@ const HomeScreen = ({navigation}) => {
                     </TouchableOpacity>
 
                     <View >
-                        <TextInput style={styles.header__input}
-                            placeholderTextColor="#656363"
+                        <TextInput style={[styles.header__input, {backgroundColor: AppTheme[theme].overlays}]}
+                            placeholderTextColor={AppTheme[theme].placeholderText}
                             onChangeText={(txt) => filter(txt)}
                             placeholder='Pesquisar planta'/>
 
@@ -88,8 +80,10 @@ const HomeScreen = ({navigation}) => {
                     renderItem={( { item } ) => {
                         if (item.plusImage){
                             return (
-                                <TouchableOpacity style={styles.flatList__addIcon} onPress={() => navigation.navigate("AddPlant")}>
-                                    <Icon name='plus' size={40} color="#099820"/>
+                                <TouchableOpacity 
+                                    style={[styles.flatList__addIcon, {backgroundColor: AppTheme[theme].overlays}]} 
+                                    onPress={() => navigation.navigate("AddPlant")}>
+                                        <Icon name='plus' size={40} color="#099820"/>
                                 </TouchableOpacity> 
                             )
                         }
@@ -115,80 +109,5 @@ const HomeScreen = ({navigation}) => {
         </View>
     )
 }
-
-const styles = StyleSheet.create({
-    container: {
-        backgroundColor: "#CCFFC8",
-        flex: 1,
-        flexDirection: 'column'
-    },
-
-    header: {
-        display: "flex",
-        flexDirection: "row",
-        alignItems: "center",
-        justifyContent: "space-between",
-        width: width * 0.9
-    },
-
-    backimage:{
-        flex: 1,
-        justifyContent: 'space-between',
-        resizeMode: 'cover',
-        alignItems: "center",
-        display: "flex",
-        padding: 25,
-        paddingTop: 20
-    },
-
-    header__input: {
-        backgroundColor: "#F7F7F7",
-        borderColor: "#DDD",
-        borderWidth: 1,
-        borderRadius: 8,
-        height: 40,
-        marginBottom: 20,
-        paddingHorizontal: 15,
-        width: width * 0.82
-    },
-
-    header__icon: {
-        position: 'absolute',
-        top: 9,
-        left: "88%",
-        width: 20
-    },
-
-    flatList: {
-        width: width * 0.9
-    },
-
-    flatList__addIcon:{
-        width: 90, 
-        height: 90, 
-        borderRadius: 35, 
-        margin: 10, 
-        backgroundColor: "#FFFFFF", 
-        alignItems: 'center', 
-        justifyContent: "center"
-    },
-
-    flatList__image: {
-        display: "flex", 
-        justifyContent: 'space-between' 
-    },
-
-    logout: {
-        display: "flex", 
-        alignItems: "flex-end", 
-        width: width * 0.9
-    },
-
-    logout__text: {
-        fontWeight: 'bold', 
-        fontSize: 20, 
-        color: "black"
-    }
-})
 
 export default HomeScreen
