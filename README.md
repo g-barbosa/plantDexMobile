@@ -14,7 +14,7 @@ This project is a kind of "Pokedex" app for plants. The user can register his pl
 - [:heavy_check_mark:] Add Plant Screen
 - [:heavy_check_mark:] Edit Plant Screen
 - [:heavy_check_mark:] Delete Plant Option
-- [:x:] Dark Mode
+- [:heavy_check_mark:] Dark Mode
 
 ### Setting The Environment
 To work with React Native applications, it is important to set up the environment. You can follow this guide to do this:
