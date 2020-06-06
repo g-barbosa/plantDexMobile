@@ -74,7 +74,7 @@ const AddPlant = ({navigation}) => {
                     placeholder='Tipo'/>
 
                 <TouchableOpacity style={styles.card__down} onPress={() => setShowSelect(!showSelect)} hitSlop={{left: 300}}>
-                    <Icon name='chevron-down' size={20} color="#099820"/>
+                    <Icon name='chevron-down' size={20} color={AppTheme[theme].icons}/>
                 </TouchableOpacity>
 
                 <TextInput multiline={true} style={[styles.card__input, {height: 100, backgroundColor: AppTheme[theme].overlays}]}
@@ -101,10 +101,11 @@ const AddPlant = ({navigation}) => {
             </View>
             <View style={[styles.PlantImage, {backgroundColor: AppTheme[theme].overlays}]}>
                 <Image source={image} style={styles.selectedImage}/>
-                <TouchableOpacity style={{margin: 15}} hitSlop={{left: 300, top: 300}}  onPress={() => ImagePicker.launchImageLibrary(options, (response) => {
-                    setImage({uri: 'data:image/jpeg;base64,' + response.data})
-                })}>
-                    <Icon name='camera' size={20} color="#099820"/>
+                <TouchableOpacity 
+                    style={{margin: 15}} hitSlop={{left: 300, top: 300}}  
+                    onPress={() => ImagePicker.launchImageLibrary(options, (response) => {
+                    setImage({uri: 'data:image/jpeg;base64,' + response.data})})}>
+                    <Icon name='camera' size={20} color={AppTheme[theme].icons}/>
                 </TouchableOpacity>
             </View>
         </ScrollView>
