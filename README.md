@@ -4,10 +4,10 @@
 This project is a kind of "Pokedex" app for plants. The user can register his plants and make his own personal catalog.
 
 <p float="left">
-  <img src="https://res.cloudinary.com/dkafjz7rw/image/upload/v1596149487/ImagesToReadmes/Screenshot_20200730-094425_ikdao3.png" width="80" height="180" />
-  <img src="https://res.cloudinary.com/dkafjz7rw/image/upload/v1596149490/ImagesToReadmes/Screenshot_20200730-095026_us5myy.png" width="80" height="180" />
-  <img src="https://res.cloudinary.com/dkafjz7rw/image/upload/v1596149475/ImagesToReadmes/Screenshot_20200730-094438_zumjvl.png" width="80" height="180" />
-  <img src="https://res.cloudinary.com/dkafjz7rw/image/upload/v1596149476/ImagesToReadmes/Screenshot_20200730-094451_d2kn9n.png" width="80" height="180" />
+  <img src="https://res.cloudinary.com/dkafjz7rw/image/upload/v1596149487/ImagesToReadmes/Screenshot_20200730-094425_ikdao3.png" width="180" height="380" />
+  <img src="https://res.cloudinary.com/dkafjz7rw/image/upload/v1596149490/ImagesToReadmes/Screenshot_20200730-095026_us5myy.png" width="180" height="380" />
+  <img src="https://res.cloudinary.com/dkafjz7rw/image/upload/v1596149475/ImagesToReadmes/Screenshot_20200730-094438_zumjvl.png" width="180" height="380" />
+  <img src="https://res.cloudinary.com/dkafjz7rw/image/upload/v1596149476/ImagesToReadmes/Screenshot_20200730-094451_d2kn9n.png" width="180" height="380" />
 </p>
 
 # Progress
