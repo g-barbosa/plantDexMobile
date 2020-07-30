@@ -3,6 +3,8 @@
 
 This project is a kind of "Pokedex" app for plants. The user can register his plants and make his own personal catalog.
 
+<img src="https://res.cloudinary.com/dkafjz7rw/image/upload/v1596149487/ImagesToReadmes/Screenshot_20200730-094425_ikdao3.png" alt="home" width="80" height="180">
+
 # Progress
 
 - [:heavy_check_mark:] Splash Screen
