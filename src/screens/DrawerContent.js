@@ -40,14 +40,14 @@ const DrawerContent = ({navigation}, props) => {
                         icon={() => <Icon name='sun' size={20} color="#099820"/>} 
                         onPress={() => setModeState('light')} 
                         labelStyle={{color: AppTheme[theme].text, fontWeight: "bold"}} 
-                        label="Modo Diurno"/>}
+                        label="Tema Claro"/>}
 
                 {modeState === 'light' && 
                 <DrawerItem 
                     icon={() => <Icon name='moon' size={20} color="#099820"/>} 
                     onPress={() => setModeState('dark')} 
                     labelStyle={{color: AppTheme[theme].text, fontWeight: "bold"}} 
-                    label="Modo Noturno"/>}
+                    label="Tema Escuro"/>}
 
                 <DrawerItem 
                     icon={() => <Icon name='power-off' size={20} color="#099820"/>} 

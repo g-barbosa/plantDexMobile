@@ -1,5 +1,5 @@
 import React, {useContext} from 'react'
-import { View, Text, Image, Alert, ToastAndroid, TouchableOpacity } from  'react-native'
+import { View, Text, Image, Alert, ToastAndroid, TouchableOpacity, ScrollView } from  'react-native'
 
 import FetchService from '../services/FetchService'
 import AppTheme from '../components/Theme'
@@ -36,7 +36,7 @@ const PlantInfo = ({navigation, route}) => {
     }
 
     return (
-        <View style={[styles.container, {backgroundColor: AppTheme[theme].homeBackground}]}>
+        <ScrollView contentContainerStyle={{alignItems: "center"}} style={[styles.container, {backgroundColor: AppTheme[theme].homeBackground}]}>
             <View style={[styles.card, {backgroundColor: AppTheme[theme].secondary}]}>
                 <Text style={[styles.card__plantName, {color: AppTheme[theme].name}]}>{params.name}</Text>
                 <Text style={[styles.card__scientificName, {color: AppTheme[theme].scientificName}]}>{params.scientificName}</Text>
@@ -71,14 +71,14 @@ const PlantInfo = ({navigation, route}) => {
                     informations: params.informations,
                     image: params.image
                 })}>
-                    <Icon name='edit' size={20} color="#099820"/>
+                    <Icon name='edit' size={25} color="#099820"/>
                 </TouchableOpacity>
 
                 <TouchableOpacity onPress={DeleteAlert} hitSlop={{left: 150}}>
-                    <Icon name='trash-alt' size={20} color="#099820"/>
+                    <Icon name='trash-alt' size={25} color="#099820"/>
                 </TouchableOpacity>
             </View>
-        </View>
+        </ScrollView>
     )
 }
 
