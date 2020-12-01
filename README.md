@@ -1,7 +1,7 @@
 ![alt_text](https://res.cloudinary.com/dkafjz7rw/image/upload/v1589768224/LogoPlanta-03_1_mtssou.png)
 # PlantaDex APP 
 
-This project is a kind of "Pokedex" app for plants. The user can register their plants and make his own personal catalog.
+This project is a kind of "Pokedex" app for plants. The user can register their plants and make their own personal catalog.
 
 <p float="left">
   <img src="https://res.cloudinary.com/dkafjz7rw/image/upload/v1596149487/ImagesToReadmes/Screenshot_20200730-094425_ikdao3.png" width="180" height="380" />
