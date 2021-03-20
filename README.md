@@ -10,6 +10,8 @@ This project is a kind of "Pokedex" app for plants. The user can register their 
   <img src="https://res.cloudinary.com/dkafjz7rw/image/upload/v1596149476/ImagesToReadmes/Screenshot_20200730-094451_d2kn9n.png" width="180" height="380" />
 </p>
 
+***Design das telas por: [Larissa Diniz](https://www.behance.net/gallery/112732899/PlantaDex)**
+
 # Progress
 
 - [:heavy_check_mark:] Splash Screen
